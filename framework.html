@@ -3,7 +3,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Framework of my webpage</title>
+    <title>Wireframe / Skeleton Layout — C-Band Teleport Webpage</title>
+    <link rel="stylesheet" href="./src/css/framestyle.css" />
   </head>
-  <body></body>
+  <body>
+    <div class="wireframe-container">
+      <a href="./index.html" class="back-link"
+        >&larr; Volver al Dashboard de Presentación (index.html)</a
+      >
+
+      <!-- Encabezado Principal -->
+      <header>
+        <h2>[ HEADER ] C-Band Teleport Interactive Troubleshooting System</h2>
+        <p style="font-size: 0.9rem; margin-top: 5px">
+          Módulo de Diagnóstico de Fallas de Video y Audio (REDTV)
+        </p>
+      </header>
+
+      <!-- Barra de Navegación / Categorías -->
+      <nav>
+        <div class="nav-item">[ SELECTOR ] Seleccionar Tipo de Falla</div>
+        <div class="nav-item">
+          [ OPTION ] Fallas de Imagen (Pixelado, Congelamiento, Pantalla Negra)
+        </div>
+        <div class="nav-item">
+          [ OPTION ] Fallas de Audio (Retardo, Pérdida)
+        </div>
+      </nav>
+
+      <!-- Estructura Principal -->
+      <div class="main-grid">
+        <!-- Panel Izquierdo: Selección de Equipo RF / Baseband -->
+        <aside class="sidebar">
+          <h3>[ SIDEBAR ] Diagnóstico por Equipo</h3>
+          <br />
+          <div class="wireframe-box">
+            <strong>1. Entrada RF / LNB / Parámetros C-Band</strong>
+            <p style="font-size: 0.8rem; margin-top: 5px">
+              [ Nivel de Señal, C/N, Eb/No ]
+            </p>
+          </div>
+          <div class="wireframe-box">
+            <strong>2. Receptores IRD / Demoduladores</strong>
+            <p style="font-size: 0.8rem; margin-top: 5px">
+              [ Estado de Lock, BER, PID ]
+            </p>
+          </div>
+          <div class="wireframe-box">
+            <strong>3. Codificadores Baseband / Conmutadores</strong>
+            <p style="font-size: 0.8rem; margin-top: 5px">
+              [ SDI Video, Embedded Audio ]
+            </p>
+          </div>
+        </aside>
+
+        <!-- Área Central: Flujo Interactivo de Diagnóstico -->
+        <main class="content-area">
+          <h3>[ WORKFLOW AREA ] Árbol de Decisiones de Diagnóstico</h3>
+          <br />
+          <div class="wireframe-box">
+            <h4>Paso 1: Identificación de la Falla</h4>
+            <p style="font-size: 0.85rem; margin-top: 5px">
+              Pregunta condicional sobre la señal para guiar al técnico de
+              campo...
+            </p>
+          </div>
+
+          <div class="wireframe-box">
+            <h4>Paso 2: Acción Correctiva Sugerida</h4>
+            <p style="font-size: 0.85rem; margin-top: 5px">
+              Medidas preventivas antes de escalar el reporte a supervisión.
+            </p>
+          </div>
+
+          <!-- Espacio Reservado para el Diagrama -->
+          <div class="diagram-placeholder">
+            [ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]
+          </div>
+        </main>
+      </div>
+
+      <!-- Pie de Página -->
+      <footer>
+        [ FOOTER ] GS 497 — Project Wireframe Skeleton | BYU-Idaho & REDTV
+      </footer>
+    </div>
+  </body>
 </html>
