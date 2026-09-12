@@ -1,26 +1,217 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>C-Band Teleport Troubleshooting video and audio</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <link rel="stylesheet" href="./src/css/variables.css" />
-    <link rel="stylesheet" href="./src/css/main.css" />
+    <title>Wireframe / Skeleton Layout — C-Band Teleport Webpage</title>
+    <link rel="stylesheet" href="./src/css/framestyle.css" />
   </head>
   <body>
-    <h1>C-Band Teleport Troubleshooting video and audio</h1>
-    <p>This is a webpage to offer a fast resource for counsulting</p>
-    <p>and producing faster answer from Telecommunication Technicians.</p>
+    <div class="wireframe-container">
+      <!-- Barra Superior: Enlace y Botón Conmutador de Idioma -->
+      <div class="top-bar">
+        <a
+          href="./index.html"
+          class="back-link"
+          data-es="&larr; Volver al escritorio de Presentación (index.html)"
+          data-en="&larr; Back to Presentation Dashboard (index.html)"
+          >&larr; Volver al Dashboard de Presentación (index.html)</a
+        >
 
-    <img src="./public/assets/images/xxx.jpg" alt="devices" />
-    <img src="./public/assets/images/xx1,jpg" alt="Other devices" />
+        <button id="lang-toggle" class="lang-btn">Switch to English 🇺🇸</button>
+      </div>
+
+      <!-- Encabezado Principal -->
+      <header>
+        <h2
+          data-es="[ Encabezado ] Sistema Interactivo de Diagnóstico de Falla de Video y Audio en Telepuerto Banda C"
+          data-en="[ HEADER ] C-Band Teleport Interactive Troubleshooting of Video and Audio System"
+        >
+          [ HEADER ] Sistema Interactivo de Diagnóstico de Telepuerto Banda C
+        </h2>
+        <p
+          style="font-size: 0.9rem; margin-top: 5px"
+          data-es="Módulo de Diagnóstico de Fallas de Video y Audio (REDTV)"
+          data-en="Video & Audio Fault Diagnostics Module (REDTV)"
+        >
+          Módulo de Diagnóstico de Fallas de Video y Audio (REDTV)
+        </p>
+      </header>
+
+      <!-- Barra de Navegación / Categorías -->
+      <nav>
+        <div
+          class="nav-item"
+          data-es="[ SELECCIONAR ] Seleccionar Tipo de Falla"
+          data-en="[ SELECTOR ] Select Fault Type"
+        >
+          [ SELECTOR ] Seleccionar Tipo de Falla
+        </div>
+        <div
+          class="nav-item"
+          data-es="[ OPCION ] Fallas de Imagen (Pixelado, Congelamiento, Pantalla Negra, Barras de colores)"
+          data-en="[ OPTION ] Image Faults (Pixelation, Frozen, Black Screen, Color Bars)"
+        >
+          [ OPTION ] Fallas de Imagen (Pixelado, Congelamiento, Pantalla Negra)
+        </div>
+        <div
+          class="nav-item"
+          data-es="[ OPCION ] Fallas de Audio (Retardo, Pérdida)"
+          data-en="[ OPTION ] Audio Faults (Delay, Loss)"
+        >
+          [ OPTION ] Fallas de Audio (Retardo, Pérdida)
+        </div>
+      </nav>
+
+      <!-- Estructura Principal -->
+      <div class="main-grid">
+        <!-- Panel Izquierdo: Selección de Equipo RF / Baseband -->
+        <aside class="sidebar">
+          <h3
+            data-es="[ BARRA LATERAL ] Diagnóstico por Equipo"
+            data-en="[ SIDEBAR ] Equipment Diagnostics"
+          >
+            [ SIDEBAR ] Diagnóstico por Equipo
+          </h3>
+          <br />
+          <div class="wireframe-box">
+            <strong
+              data-es="1. Entrada RF / LNB / Parámetros C-Band"
+              data-en="1. RF Input / LNB / C-Band Parameters"
+              >1. Entrada RF / LNB / Parámetros C-Band</strong
+            >
+            <p
+              style="font-size: 0.8rem; margin-top: 5px"
+              data-es="[ Nivel de Señal, C/N, Eb/No ]"
+              data-en="[ Signal Level, C/N, Eb/No ]"
+            >
+              [ Nivel de Señal, C/N, Eb/No ]
+            </p>
+          </div>
+          <div class="wireframe-box">
+            <strong
+              data-es="2. Receptores IRD / Demoduladores"
+              data-en="2. IRD Receivers / Demodulators"
+              >2. Receptores IRD / Demoduladores</strong
+            >
+            <p
+              style="font-size: 0.8rem; margin-top: 5px"
+              data-es="[ Estado de Lock, BER, PID ]"
+              data-en="[ Lock Status, BER, PID ]"
+            >
+              [ Estado de Lock, BER, PID ]
+            </p>
+          </div>
+          <div class="wireframe-box">
+            <strong
+              data-es="3. Codificadores Baseband / Conmutadores"
+              data-en="3. Baseband Encoders / Switches"
+              >3. Codificadores Baseband / Conmutadores</strong
+            >
+            <p
+              style="font-size: 0.8rem; margin-top: 5px"
+              data-es="[ SDI Video, Audio Embebido ]"
+              data-en="[ SDI Video, Embedded Audio ]"
+            >
+              [ SDI Video, Audio Embebido ]
+            </p>
+          </div>
+        </aside>
+
+        <!-- Área Central: Flujo Interactivo de Diagnóstico -->
+        <main class="content-area">
+          <h3
+            data-es="[ AREA DE TRABAJO ] Árbol de Decisiones de Diagnóstico"
+            data-en="[ WORKFLOW AREA ] Decision Tree Workflow"
+          >
+            [ WORKFLOW AREA ] Árbol de Decisiones de Diagnóstico
+          </h3>
+          <br />
+          <div class="wireframe-box">
+            <h4
+              data-es="Paso 1: Identificación de la Falla"
+              data-en="Step 1: Fault Identification"
+            >
+              Paso 1: Identificación de la Falla
+            </h4>
+            <p
+              style="font-size: 0.85rem; margin-top: 5px"
+              data-es="Pregunta condicional sobre la señal para guiar al técnico de campo..."
+              data-en="Conditional signal question to guide the field technician..."
+            >
+              Pregunta condicional sobre la señal para guiar al técnico de
+              campo...
+            </p>
+          </div>
+
+          <div class="wireframe-box">
+            <h4
+              data-es="Paso 2: Acción Correctiva Sugerida"
+              data-en="Step 2: Suggested Corrective Action"
+            >
+              Paso 2: Acción Correctiva Sugerida
+            </h4>
+            <p
+              style="font-size: 0.85rem; margin-top: 5px"
+              data-es="Medidas preventivas antes de escalar el reporte al supervisor y coordinador."
+              data-en="Preventive measures prior to escalating issue to supervision."
+            >
+              Medidas preventivas antes de escalar el reporte al supervisor y
+              coordinador.
+            </p>
+          </div>
+
+          <!-- Espacio Reservado para el Diagrama -->
+          <div
+            class="diagram-placeholder"
+            data-es="[ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]"
+            data-en="[ RESERVED AREA FOR FLOWCHART DIAGRAM / SVG FILE ]"
+          >
+            [ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]
+          </div>
+        </main>
+      </div>
+
+      <!-- Pie de Página -->
+      <footer>
+        <div
+          class="footer"
+          data-es="[ PIE DE PAGINA NOMBRE DEL CURSO GS 497 - ESTRUCTURA DE LA PAGINA WEB DEL PROYECTO ]"
+          data-en="[ FOOTER NAME OF COURSE GS 497 - PROJECT WIREFRAME SKELETON ]"
+        ></div>
+        [ FOOTER ] GS 497 — Project Wireframe Skeleton | BYU-Idaho
+      </footer>
+    </div>
+
+    <!-- Script de Cambio Dinámico de Idioma -->
+    <script>
+      const toggleBtn = document.getElementById("lang-toggle");
+      let currentLang = localStorage.getItem("appLanguage") || "es";
+
+      function updateLanguage(lang) {
+        const translatableElements =
+          document.querySelectorAll("[data-es][data-en]");
+        translatableElements.forEach((el) => {
+          el.innerHTML = el.getAttribute(`data-${lang}`);
+        });
+
+        if (lang === "es") {
+          toggleBtn.textContent = "Switch to English 🇺🇸";
+        } else {
+          toggleBtn.textContent = "Cambiar a Español 🇻🇪";
+        }
+
+        localStorage.setItem("appLanguage", lang);
+      }
+
+      // Inicialización
+      updateLanguage(currentLang);
+
+      // Evento del botón
+      toggleBtn.addEventListener("click", () => {
+        currentLang = currentLang === "es" ? "en" : "es";
+        updateLanguage(currentLang);
+      });
+    </script>
   </body>
 </html>
