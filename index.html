@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wireframe / Skeleton Layout — C-Band Teleport Webpage</title>
-    <link rel="stylesheet" href="./src/css/framestyle.css" />
+    <link rel="stylesheet" href="./src/css/indexstyle.css" />
   </head>
   <body>
     <div class="wireframe-container">
@@ -13,7 +13,7 @@
         <a
           href="./index.html"
           class="back-link"
-          data-es="&larr; Volver al escritorio de Presentación (index.html)"
+          data-es="&larr; Volver al Dashboard de Presentación (index.html)"
           data-en="&larr; Back to Presentation Dashboard (index.html)"
           >&larr; Volver al Dashboard de Presentación (index.html)</a
         >
@@ -23,43 +23,163 @@
 
       <!-- Encabezado Principal -->
       <header>
-        <h2
-          data-es="[ Encabezado ] Sistema Interactivo de Diagnóstico de Falla de Video y Audio en Telepuerto Banda C"
-          data-en="[ HEADER ] C-Band Teleport Interactive Troubleshooting of Video and Audio System"
-        >
-          [ HEADER ] Sistema Interactivo de Diagnóstico de Telepuerto Banda C
-        </h2>
-        <p
-          style="font-size: 0.9rem; margin-top: 5px"
-          data-es="Módulo de Diagnóstico de Fallas de Video y Audio (REDTV)"
-          data-en="Video & Audio Fault Diagnostics Module (REDTV)"
-        >
-          Módulo de Diagnóstico de Fallas de Video y Audio (REDTV)
-        </p>
+        <!-- Imagen insertada en el HTML -->
+        <img
+          src="public/assets/images/imagen-satelital.jpg"
+          alt="Satélite y Tierra"
+          class="imagen-fondo-header"
+        />
+
+        <!-- Contenedor para el texto por encima de la imagen -->
+        <div class="contenido-header">
+          <h2
+            data-es="Sistema Interactivo de Diagnóstico de Telepuerto Banda C"
+            data-en="C-Band Teleport Interactive Troubleshooting of Video and Audio System"
+          >
+            [ HEADER ] Sistema Interactivo de Diagnóstico de Telepuerto Banda C
+          </h2>
+          <p
+            style="font-size: 0.9rem; margin-top: 5px"
+            data-es="Módulo de Diagnóstico de Fallas de Video y Audio (REDTV)"
+            data-en="Video & Audio Fault Diagnostics Module (REDTV)"
+          >
+            Módulo de Diagnóstico de Fallas de Video y Audio (REDTV)
+          </p>
+        </div>
       </header>
 
-      <!-- Barra de Navegación / Categorías -->
-      <nav>
-        <div
-          class="nav-item"
-          data-es="[ SELECCIONAR ] Seleccionar Tipo de Falla"
-          data-en="[ SELECTOR ] Select Fault Type"
+      <!-- Barra de Navegación / Selector de Fallas Interactivo -->
+      <nav class="dynamic-nav">
+        <!-- Botón Principal -->
+        <button
+          id="btn-start-selector"
+          class="nav-item main-selector"
+          onclick="toggleMenu('menu-step-1')"
+          data-es="Seleccionar Tipo de Falla ▼"
+          data-en="Select Fault Type ▼"
         >
-          [ SELECTOR ] Seleccionar Tipo de Falla
+          [ SELECCIONAR ] Seleccionar Tipo de Falla ▼
+        </button>
+
+        <!-- Paso 1: Canales o Radios -->
+        <div id="menu-step-1" class="dropdown-menu hidden">
+          <button
+            class="menu-btn"
+            onclick="selectStep('menu-step-2-canales')"
+            data-es="Canales"
+            data-en="Channels"
+          >
+            Canales
+          </button>
+          <button
+            class="menu-btn"
+            onclick="selectStep('menu-step-2-radios')"
+            data-es="Radios"
+            data-en="Radios"
+          >
+            Radios
+          </button>
         </div>
-        <div
-          class="nav-item"
-          data-es="[ OPCION ] Fallas de Imagen (Pixelado, Congelamiento, Pantalla Negra, Barras de colores)"
-          data-en="[ OPTION ] Image Faults (Pixelation, Frozen, Black Screen, Color Bars)"
-        >
-          [ OPTION ] Fallas de Imagen (Pixelado, Congelamiento, Pantalla Negra)
+
+        <!-- Paso 2 (Canales): Televen, CCS Movie, CCS Documental -->
+        <div id="menu-step-2-canales" class="dropdown-menu hidden">
+          <p
+            class="menu-label"
+            data-es="Seleccione el Canal:"
+            data-en="Select Channel:"
+          >
+            Seleccione el Canal:
+          </p>
+          <button
+            class="menu-btn"
+            onclick="setChannelAndStep('Televen', 'menu-step-3-tipo-senal')"
+            data-es="Televen"
+            data-en="Televen"
+          >
+            Televen
+          </button>
+          <button
+            class="menu-btn"
+            onclick="setChannelAndStep('CCS_Movie', 'menu-step-3-tipo-senal')"
+            data-es="CCS Movie"
+            data-en="CCS Movie"
+          >
+            CCS Movie
+          </button>
+          <button
+            class="menu-btn"
+            onclick="
+              setChannelAndStep('CCS_Documental', 'menu-step-3-tipo-senal')
+            "
+            data-es="CCS Documental"
+            data-en="CCS Documental"
+          >
+            CCS Documental
+          </button>
         </div>
-        <div
-          class="nav-item"
-          data-es="[ OPCION ] Fallas de Audio (Retardo, Pérdida)"
-          data-en="[ OPTION ] Audio Faults (Delay, Loss)"
-        >
-          [ OPTION ] Fallas de Audio (Retardo, Pérdida)
+
+        <!-- Paso 3: Selección de Tipo de Señal (Video o Audio) -->
+        <div id="menu-step-3-tipo-senal" class="dropdown-menu hidden">
+          <p
+            class="menu-label"
+            data-es="Seleccione el Tipo de Señal:"
+            data-en="Select Signal Type:"
+          >
+            Seleccione el Tipo de Señal:
+          </p>
+          <button
+            class="menu-btn"
+            onclick="setSignalAndStep('Video', 'menu-step-4-plataforma')"
+            data-es="Video"
+            data-en="Video"
+          >
+            Video
+          </button>
+          <button
+            class="menu-btn"
+            onclick="setSignalAndStep('Audio', 'menu-step-4-plataforma')"
+            data-es="Audio"
+            data-en="Audio"
+          >
+            Audio
+          </button>
+        </div>
+
+        <!-- Paso 4: Plataforma (Satelital o Contribución) -> Ejecución Final -->
+        <div id="menu-step-4-plataforma" class="dropdown-menu hidden">
+          <p
+            class="menu-label"
+            data-es="Seleccione la Plataforma:"
+            data-en="Select Platform:"
+          >
+            Seleccione la Plataforma:
+          </p>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Satelital')"
+            data-es="Satelital (Internacional)"
+            data-en="Satellite (International)"
+          >
+            Satelital (Internacional)
+          </button>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Contribucion')"
+            data-es="Contribución (Nacional)"
+            data-en="Contribution (National)"
+          >
+            Contribución (Nacional)
+          </button>
+        </div>
+
+        <!-- Paso 2 (Radios): (Opciones futuras) -->
+        <div id="menu-step-2-radios" class="dropdown-menu hidden">
+          <p
+            data-es="Opciones de Radio en desarrollo..."
+            data-en="Radio options in development..."
+          >
+            Opciones de Radio en desarrollo...
+          </p>
         </div>
       </nav>
 
@@ -67,11 +187,8 @@
       <div class="main-grid">
         <!-- Panel Izquierdo: Selección de Equipo RF / Baseband -->
         <aside class="sidebar">
-          <h3
-            data-es="[ BARRA LATERAL ] Diagnóstico por Equipo"
-            data-en="[ SIDEBAR ] Equipment Diagnostics"
-          >
-            [ SIDEBAR ] Diagnóstico por Equipo
+          <h3 data-es="Diagnóstico por Equipo" data-en="Equipment Diagnostics">
+            [ BARRA LATERAL ] Diagnóstico por Equipo
           </h3>
           <br />
           <div class="wireframe-box">
@@ -113,7 +230,7 @@
               data-es="[ SDI Video, Audio Embebido ]"
               data-en="[ SDI Video, Embedded Audio ]"
             >
-              [ SDI Video, Audio Embebido ]
+              [ SDI Video, Embedded Audio ]
             </p>
           </div>
         </aside>
@@ -121,10 +238,10 @@
         <!-- Área Central: Flujo Interactivo de Diagnóstico -->
         <main class="content-area">
           <h3
-            data-es="[ AREA DE TRABAJO ] Árbol de Decisiones de Diagnóstico"
-            data-en="[ WORKFLOW AREA ] Decision Tree Workflow"
+            data-es="Árbol de Decisiones de Diagnóstico"
+            data-en="Decision Tree Workflow"
           >
-            [ WORKFLOW AREA ] Árbol de Decisiones de Diagnóstico
+            [ AREA DE TRABAJO ] Árbol de Decisiones de Diagnóstico
           </h3>
           <br />
           <div class="wireframe-box">
@@ -161,13 +278,27 @@
             </p>
           </div>
 
-          <!-- Espacio Reservado para el Diagrama -->
-          <div
-            class="diagram-placeholder"
-            data-es="[ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]"
-            data-en="[ RESERVED AREA FOR FLOWCHART DIAGRAM / SVG FILE ]"
-          >
-            [ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]
+          <!-- Espacio Reservado para el Diagrama con soporte de Imagen Automática -->
+          <div class="diagram-placeholder">
+            <p
+              id="placeholder-text"
+              data-es="[ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]"
+              data-en="[ RESERVED AREA FOR FLOWCHART DIAGRAM / SVG FILE ]"
+            >
+              [ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]
+            </p>
+            <img
+              id="diagram-image"
+              src=""
+              alt="Diagrama de Canal"
+              style="
+                display: none;
+                max-width: 100%;
+                height: auto;
+                margin-top: 10px;
+                border-radius: 4px;
+              "
+            />
           </div>
         </main>
       </div>
@@ -183,11 +314,30 @@
       </footer>
     </div>
 
-    <!-- Script de Cambio Dinámico de Idioma -->
+    <!-- Script de Lógica Interactiva, Bilingüe y de Diccionario de Imágenes -->
     <script>
       const toggleBtn = document.getElementById("lang-toggle");
       let currentLang = localStorage.getItem("appLanguage") || "es";
 
+      // Variables temporales para rastrear la selección actual
+      let selectedChannel = "";
+      let selectedSignal = "";
+
+      // Diccionario de imágenes asociadas a cada combinación única
+      const diagramImages = {
+        Televen_Video_Contribucion: "public/assets/images/televen.jpeg",
+        Televen_Audio_Contribucion: "public/assets/images/televen.jpeg",
+
+        CCS_Movie_Video_Contribucion: "public/assets/images/ccsmovie.jpeg",
+        CCS_Movie_Audio_Contribucion: "public/assets/images/ccsmovie.jpeg",
+
+        CCS_Documental_Video_Contribucion:
+          "public/assets/images/ccsdocumental.jpeg",
+        CCS_Documental_Audio_Contribucion:
+          "public/assets/images/ccsdocumental.jpeg",
+      };
+
+      // 1. Lógica Bilingüe
       function updateLanguage(lang) {
         const translatableElements =
           document.querySelectorAll("[data-es][data-en]");
@@ -200,18 +350,72 @@
         } else {
           toggleBtn.textContent = "Cambiar a Español 🇻🇪";
         }
-
         localStorage.setItem("appLanguage", lang);
       }
 
-      // Inicialización
-      updateLanguage(currentLang);
-
-      // Evento del botón
       toggleBtn.addEventListener("click", () => {
         currentLang = currentLang === "es" ? "en" : "es";
         updateLanguage(currentLang);
       });
+
+      // 2. Lógica del Árbol Interactivo
+      function hideAllMenus() {
+        const menus = document.querySelectorAll(".dropdown-menu");
+        menus.forEach((menu) => menu.classList.add("hidden"));
+      }
+
+      function toggleMenu(menuId) {
+        const menu = document.getElementById(menuId);
+        if (menu.classList.contains("hidden")) {
+          hideAllMenus();
+          menu.classList.remove("hidden");
+        } else {
+          hideAllMenus();
+        }
+      }
+
+      function selectStep(nextMenuId) {
+        hideAllMenus();
+        document.getElementById(nextMenuId).classList.remove("hidden");
+        updateLanguage(currentLang);
+      }
+
+      function setChannelAndStep(channelName, nextMenuId) {
+        selectedChannel = channelName;
+        selectStep(nextMenuId);
+      }
+
+      function setSignalAndStep(signalName, nextMenuId) {
+        selectedSignal = signalName;
+        selectStep(nextMenuId);
+      }
+
+      function finalizeSelection(platformName) {
+        hideAllMenus();
+
+        const key = `${selectedChannel}_${selectedSignal}_${platformName}`;
+        const imagePath = diagramImages[key];
+        const diagramDiv = document.querySelector(".diagram-placeholder");
+        const placeholderText = document.getElementById("placeholder-text");
+        const diagramImage = document.getElementById("diagram-image");
+
+        const titleText =
+          currentLang === "es" ? "Diagrama Solicitado:" : "Requested Diagram:";
+
+        if (imagePath) {
+          placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.1rem;">${titleText}<br/><b>${selectedChannel} - ${selectedSignal} (${platformName})</b></span>`;
+          diagramImage.src = imagePath;
+          diagramImage.style.display = "block";
+        } else {
+          placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.1rem;">${titleText}<br/><b>${selectedChannel} - ${selectedSignal} (${platformName})</b></span><br/><br/>[ Imagen pendiente de asociar en la ruta: ${key} ]`;
+          diagramImage.style.display = "none";
+        }
+
+        diagramDiv.style.borderColor = "var(--naranja-boton)";
+      }
+
+      // Inicialización al cargar la página
+      updateLanguage(currentLang);
     </script>
   </body>
 </html>
