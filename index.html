@@ -300,22 +300,54 @@
               "
             />
           </div>
+          <div class="action-panel">
+            <button
+              id="reset-btn"
+              class="menu-btn"
+              style="background-color: var(--naranja-boton, #ff7a00); color: white; font-weight: bold; width: 100%; padding: 12px;"
+              onclick="resetDiagnosis()"
+              data-es="🔄 Reiniciar Diagnóstico"
+              data-en="🔄 Reset Diagnosis"
+            >
+              🔄 Reiniciar Diagnóstico
+            </button>
+          </div>
         </main>
       </div>
 
       <!-- Pie de Página -->
       <footer>
-        <div
-          class="footer"
-          data-es="[ PIE DE PAGINA NOMBRE DEL CURSO GS 497 - ESTRUCTURA DE LA PAGINA WEB DEL PROYECTO ]"
-          data-en="[ FOOTER NAME OF COURSE GS 497 - PROJECT WIREFRAME SKELETON ]"
-        ></div>
-        [ FOOTER ] GS 497 — Project Wireframe Skeleton | BYU-Idaho
+        <div class="footer">
+          <p>
+            GS 497 Professional Project | C-Band Teleport Troubleshooting Tool
+          </p>
+          <p>Software Development by Alejandro I. Pérez B.</p>
+          <p>&copy; 2026 - All rights reserved.</p>
+          <p>
+            Última visita / Acceso registrado:
+            <span id="live-clock">Cargando fecha y hora...</span>
+          </p>
+        </div>
       </footer>
     </div>
 
     <!-- Script de Lógica Interactiva, Bilingüe y de Diccionario de Imágenes -->
     <script>
+      function updateClock() {
+        const now = new Date();
+        const options = {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        };
+        document.getElementById("live-clock").innerText =
+          now.toLocaleDateString("es-ES", options);
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
       const toggleBtn = document.getElementById("lang-toggle");
       let currentLang = localStorage.getItem("appLanguage") || "es";
 
@@ -416,6 +448,32 @@
 
       // Inicialización al cargar la página
       updateLanguage(currentLang);
+      // Función para reiniciar el diagnóstico
+      function resetDiagnosis() {
+        selectedChannel = "";
+        selectedSignal = "";
+        hideAllMenus();
+
+        const placeholderText = document.getElementById("placeholder-text");
+        const diagramImage = document.getElementById("diagram-image");
+        const diagramDiv = document.querySelector(".diagram-placeholder");
+
+        // Restaurar textos originales con soporte bilingüe
+        placeholderText.setAttribute(
+          "data-es",
+          "[ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]",
+        );
+        placeholderText.setAttribute(
+          "data-en",
+          "[ RESERVED AREA FOR FLOWCHART DIAGRAM / SVG FILE ]",
+        );
+
+        diagramImage.style.display = "none";
+        diagramImage.src = "";
+        diagramDiv.style.borderColor = "";
+
+        updateLanguage(currentLang);
+      }
     </script>
   </body>
 </html>
