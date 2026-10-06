@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wireframe / Skeleton Layout — C-Band Teleport Webpage</title>
-    <link rel="stylesheet" href="/src/css/indexstyle.css" />
+    <link rel="stylesheet" href="src/css/indexstyle.css" />
   </head>
   <body>
     <div class="wireframe-container">
@@ -25,7 +25,7 @@
       <header>
         <!-- Imagen insertada en el HTML -->
         <img
-          src="/public/assets/images/imagen-satelital.jpg"
+          src="public/assets/images/imagen-satelital.jpg"
           alt="Satélite y Tierra"
           class="imagen-fondo-header"
         />
@@ -300,11 +300,51 @@
               "
             />
           </div>
+          <div
+            class="report-action-container"
+            style="margin-top: 20px; text-align: center"
+          >
+            <button
+              id="copy-report-btn"
+              class="btn-primary"
+              style="
+                padding: 10px 20px;
+                background-color: var(--naranja-boton, #f07316);
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-weight: bold;
+              "
+              data-es="📋 Copiar Reporte al Portapapeles"
+              data-en="📋 Copy Report to Clipboard"
+            >
+              📋 Copiar Reporte al Portapapeles
+            </button>
+            <span
+              id="copy-feedback"
+              style="
+                margin-left: 10px;
+                font-size: 0.9rem;
+                color: #4ade80;
+                display: none;
+              "
+              data-es="¡Reporte copiado!"
+              data-en="Report copied!"
+              >¡Reporte copiado!</span
+            >
+          </div>
           <div class="action-panel">
             <button
               id="reset-btn"
               class="menu-btn"
-              style="background-color: var(--naranja-boton, #ff7a00); color: white; font-weight: bold; width: 100%; padding: 12px;"
+              style="
+                background-color: var(--naranja-boton, #ff7a00);
+                color: white;
+                font-weight: bold;
+                width: 100%;
+                padding: 12px;
+              "
               onclick="resetDiagnosis()"
               data-es="🔄 Reiniciar Diagnóstico"
               data-en="🔄 Reset Diagnosis"
