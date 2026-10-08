@@ -26,20 +26,28 @@ document.addEventListener("DOMContentLoaded", () => {
       // Recopilamos datos clave del momento
       const now = new Date().toLocaleString();
 
+      // Obtenemos los datos del técnico guardados en el navegador
+      const techName = localStorage.getItem("redtv_user_name") || "N/A";
+      const techId = localStorage.getItem("redtv_user_id") || "N/A";
+
       // Construimos el reporte adaptado al idioma correspondiente
       let reportText = "";
       if (isEnglish) {
         reportText = `--- C-BAND TELEPORT DIAGNOSTIC REPORT ---
 • Date/Time: ${now}
+• Technician: ${techName} (ID: ${techId})
 • Station: REDTV, C.A.
-• System: GS497 Web Application Tool
+• Selected Channel: ${selectedChannel || "Not specified"}
+• Signal Type: ${selectedSignal || "Not specified"}
 • Status: Troubleshooting steps compiled successfully.
 --------------------------------------------`;
       } else {
         reportText = `--- REPORTE DE DIAGNÓSTICO DE TELEPUERTO BANDA C ---
 • Fecha/Hora: ${now}
+• Técnico: ${techName} (Cédula: ${techId})
 • Estación: REDTV, C.A.
-• Sistema: Herramienta Web GS497
+• Canal Evaluado: ${selectedChannel || "No especificado"}
+• Tipo de Señal: ${selectedSignal || "No especificado"}
 • Estado: Pasos de diagnóstico recopilados exitosamente.
 --------------------------------------------------`;
       }

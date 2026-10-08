@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wireframe / Skeleton Layout — C-Band Teleport Webpage</title>
+    <link rel="stylesheet" href="src/css/indexstyle.css" />
+  </head>
+  <body>
+    <div class="wireframe-container">
+      <!-- Barra Superior: Enlace y Botón Conmutador de Idioma -->
+      <div class="top-bar">
+        <a
+          href="./index.html"
+          class="back-link"
+          data-es="&larr; Volver al Dashboard de Presentación (index.html)"
+          data-en="&larr; Back to Presentation Dashboard (index.html)"
+          >&larr; Volver al Dashboard de Presentación (index.html)</a
+        >
+
+        <button id="lang-toggle" class="lang-btn">Switch to English 🇺🇸</button>
+      </div>
+
+      <!-- Encabezado Principal -->
+      <header>
+        <!-- Imagen insertada en el HTML -->
+        <img
+          src="public/assets/images/imagen-satelital.jpg"
+          alt="Satélite y Tierra"
+          class="imagen-fondo-header"
+        />
+
+        <!-- Contenedor para el texto por encima de la imagen -->
+        <div class="contenido-header">
+          <h2
+            data-es="Sistema Interactivo de Diagnóstico de Telepuerto Banda C"
+            data-en="C-Band Teleport Interactive Troubleshooting of Video and Audio System"
+          >
+            [ HEADER ] Sistema Interactivo de Diagnóstico de Telepuerto Banda C
+          </h2>
+          <p
+            style="font-size: 0.9rem; margin-top: 5px"
+            data-es="Módulo de Diagnóstico de Fallas de Video y Audio (REDTV)"
+            data-en="Video & Audio Fault Diagnostics Module (REDTV)"
+          >
+            Módulo de Diagnóstico de Fallas de Video y Audio (REDTV)
+          </p>
+        </div>
+      </header>
+
+      <!-- Barra de Navegación / Selector de Fallas Interactivo -->
+      <nav class="dynamic-nav">
+        <!-- Botón Principal -->
+        <button
+          id="btn-start-selector"
+          class="nav-item main-selector"
+          onclick="toggleMenu('menu-step-1')"
+          data-es="Seleccionar Tipo de Falla ▼"
+          data-en="Select Fault Type ▼"
+        >
+          [ SELECCIONAR ] Seleccionar Tipo de Falla ▼
+        </button>
+
+        <!-- Paso 1: Canales o Radios -->
+        <div id="menu-step-1" class="dropdown-menu hidden">
+          <button
+            class="menu-btn"
+            onclick="selectStep('menu-step-2-canales')"
+            data-es="Canales"
+            data-en="Channels"
+          >
+            Canales
+          </button>
+          <button
+            class="menu-btn"
+            onclick="selectStep('menu-step-2-radios')"
+            data-es="Radios"
+            data-en="Radios"
+          >
+            Radios
+          </button>
+        </div>
+
+        <!-- Paso 2 (Canales): Televen, CCS Movie, CCS Documental -->
+        <div id="menu-step-2-canales" class="dropdown-menu hidden">
+          <p
+            class="menu-label"
+            data-es="Seleccione el Canal:"
+            data-en="Select Channel:"
+          >
+            Seleccione el Canal:
+          </p>
+          <button
+            class="menu-btn"
+            onclick="setChannelAndStep('Televen', 'menu-step-3-tipo-senal')"
+            data-es="Televen"
+            data-en="Televen"
+          >
+            Televen
+          </button>
+          <button
+            class="menu-btn"
+            onclick="setChannelAndStep('CCS_Movie', 'menu-step-3-tipo-senal')"
+            data-es="CCS Movie"
+            data-en="CCS Movie"
+          >
+            CCS Movie
+          </button>
+          <button
+            class="menu-btn"
+            onclick="
+              setChannelAndStep('CCS_Documental', 'menu-step-3-tipo-senal')
+            "
+            data-es="CCS Documental"
+            data-en="CCS Documental"
+          >
+            CCS Documental
+          </button>
+        </div>
+
+        <!-- Paso 3: Selección de Tipo de Señal (Video o Audio) -->
+        <div id="menu-step-3-tipo-senal" class="dropdown-menu hidden">
+          <p
+            class="menu-label"
+            data-es="Seleccione el Tipo de Señal:"
+            data-en="Select Signal Type:"
+          >
+            Seleccione el Tipo de Señal:
+          </p>
+          <button
+            class="menu-btn"
+            onclick="setSignalAndStep('Video', 'menu-step-4-plataforma')"
+            data-es="Video"
+            data-en="Video"
+          >
+            Video
+          </button>
+          <button
+            class="menu-btn"
+            onclick="setSignalAndStep('Audio', 'menu-step-4-plataforma')"
+            data-es="Audio"
+            data-en="Audio"
+          >
+            Audio
+          </button>
+        </div>
+
+        <!-- Paso 4: Plataforma (Satelital o Contribución) -> Ejecución Final -->
+        <div id="menu-step-4-plataforma" class="dropdown-menu hidden">
+          <p
+            class="menu-label"
+            data-es="Seleccione la Plataforma:"
+            data-en="Select Platform:"
+          >
+            Seleccione la Plataforma:
+          </p>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Satelital')"
+            data-es="Satelital (Internacional)"
+            data-en="Satellite (International)"
+          >
+            Satelital (Internacional)
+          </button>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Contribucion')"
+            data-es="Contribución (Nacional)"
+            data-en="Contribution (National)"
+          >
+            Contribución (Nacional)
+          </button>
+        </div>
+
+        <!-- Paso 2 (Radios): (Opciones futuras) -->
+        <div id="menu-step-2-radios" class="dropdown-menu hidden">
+          <p
+            data-es="Opciones de Radio en desarrollo..."
+            data-en="Radio options in development..."
+          >
+            Opciones de Radio en desarrollo...
+          </p>
+        </div>
+      </nav>
+
+      <!-- Estructura Principal -->
+      <div class="main-grid">
+        <!-- Panel Izquierdo: Selección de Equipo RF / Baseband -->
+        <aside class="sidebar">
+          <h3 data-es="Diagnóstico por Equipo" data-en="Equipment Diagnostics">
+            [ BARRA LATERAL ] Diagnóstico por Equipo
+          </h3>
+          <br />
+          <div class="wireframe-box">
+            <strong
+              data-es="1. Entrada RF / LNB / Parámetros C-Band"
+              data-en="1. RF Input / LNB / C-Band Parameters"
+              >1. Entrada RF / LNB / Parámetros C-Band</strong
+            >
+            <p
+              style="font-size: 0.8rem; margin-top: 5px"
+              data-es="[ Nivel de Señal, C/N, Eb/No ]"
+              data-en="[ Signal Level, C/N, Eb/No ]"
+            >
+              [ Nivel de Señal, C/N, Eb/No ]
+            </p>
+          </div>
+          <div class="wireframe-box">
+            <strong
+              data-es="2. Receptores IRD / Demoduladores"
+              data-en="2. IRD Receivers / Demodulators"
+              >2. Receptores IRD / Demoduladores</strong
+            >
+            <p
+              style="font-size: 0.8rem; margin-top: 5px"
+              data-es="[ Estado de Lock, BER, PID ]"
+              data-en="[ Lock Status, BER, PID ]"
+            >
+              [ Estado de Lock, BER, PID ]
+            </p>
+          </div>
+          <div class="wireframe-box">
+            <strong
+              data-es="3. Codificadores Baseband / Conmutadores"
+              data-en="3. Baseband Encoders / Switches"
+              >3. Codificadores Baseband / Conmutadores</strong
+            >
+            <p
+              style="font-size: 0.8rem; margin-top: 5px"
+              data-es="[ SDI Video, Audio Embebido ]"
+              data-en="[ SDI Video, Embedded Audio ]"
+            >
+              [ SDI Video, Embedded Audio ]
+            </p>
+          </div>
+        </aside>
+
+        <!-- Área Central: Flujo Interactivo de Diagnóstico -->
+        <main class="content-area">
+          <h3
+            data-es="Árbol de Decisiones de Diagnóstico"
+            data-en="Decision Tree Workflow"
+          >
+            [ AREA DE TRABAJO ] Árbol de Decisiones de Diagnóstico
+          </h3>
+          <br />
+          <div class="wireframe-box">
+            <h4
+              data-es="Paso 1: Identificación de la Falla"
+              data-en="Step 1: Fault Identification"
+            >
+              Paso 1: Identificación de la Falla
+            </h4>
+            <p
+              style="font-size: 0.85rem; margin-top: 5px"
+              data-es="Pregunta condicional sobre la señal para guiar al técnico de campo..."
+              data-en="Conditional signal question to guide the field technician..."
+            >
+              Pregunta condicional sobre la señal para guiar al técnico de
+              campo...
+            </p>
+          </div>
+
+          <div class="wireframe-box">
+            <h4
+              data-es="Paso 2: Acción Correctiva Sugerida"
+              data-en="Step 2: Suggested Corrective Action"
+            >
+              Paso 2: Acción Correctiva Sugerida
+            </h4>
+            <p
+              style="font-size: 0.85rem; margin-top: 5px"
+              data-es="Medidas preventivas antes de escalar el reporte al supervisor y coordinador."
+              data-en="Preventive measures prior to escalating issue to supervision."
+            >
+              Medidas preventivas antes de escalar el reporte al supervisor y
+              coordinador.
+            </p>
+          </div>
+
+          <!-- Espacio Reservado para el Diagrama con soporte de Imagen Automática -->
+          <div class="diagram-placeholder">
+            <p
+              id="placeholder-text"
+              data-es="[ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]"
+              data-en="[ RESERVED AREA FOR FLOWCHART DIAGRAM / SVG FILE ]"
+            >
+              [ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]
+            </p>
+            <img
+              id="diagram-image"
+              src=""
+              alt="Diagrama de Canal"
+              style="
+                display: none;
+                max-width: 100%;
+                height: auto;
+                margin-top: 10px;
+                border-radius: 4px;
+              "
+            />
+          </div>
+          <div
+            class="report-action-container"
+            style="margin-top: 20px; text-align: center"
+          >
+            <button
+              id="copy-report-btn"
+              class="btn-primary"
+              style="
+                padding: 10px 20px;
+                background-color: var(--naranja-boton, #f07316);
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-weight: bold;
+              "
+              data-es="📋 Copiar Reporte al Portapapeles"
+              data-en="📋 Copy Report to Clipboard"
+            >
+              📋 Copiar Reporte al Portapapeles
+            </button>
+            <span
+              id="copy-feedback"
+              style="
+                margin-left: 10px;
+                font-size: 0.9rem;
+                color: #4ade80;
+                display: none;
+              "
+              data-es="¡Reporte copiado!"
+              data-en="Report copied!"
+              >¡Reporte copiado!</span
+            >
+          </div>
+          <div class="action-panel">
+            <button
+              id="reset-btn"
+              class="menu-btn"
+              style="
+                background-color: var(--naranja-boton, #ff7a00);
+                color: white;
+                font-weight: bold;
+                width: 100%;
+                padding: 12px;
+              "
+              onclick="resetDiagnosis()"
+              data-es="🔄 Reiniciar Diagnóstico"
+              data-en="🔄 Reset Diagnosis"
+            >
+              🔄 Reiniciar Diagnóstico
+            </button>
+          </div>
+        </main>
+      </div>
+
+      <!-- Pie de Página -->
+      <footer>
+        <div class="footer">
+          <p>
+            GS 497 Professional Project | C-Band Teleport Troubleshooting Tool
+          </p>
+          <p>Software Development by Alejandro I. Pérez B.</p>
+          <p>&copy; 2026 - All rights reserved.</p>
+          <p>
+            Última visita / Acceso registrado:
+            <span id="live-clock">Cargando fecha y hora...</span>
+          </p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Script de Lógica Interactiva, Bilingüe y de Diccionario de Imágenes -->
+    <script>
+      // 🛡️ VALIDACIÓN DE ACCESO DE TÉCNICO
+      const userType = localStorage.getItem("redtv_user_type");
+      if (!userType) {
+        // Si no ha iniciado sesión, lo devolvemos al login principal
+        window.location.href = "index.html";
+      }
+      function updateClock() {
+        const now = new Date();
+        const options = {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        };
+        document.getElementById("live-clock").innerText =
+          now.toLocaleDateString("es-ES", options);
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+      const toggleBtn = document.getElementById("lang-toggle");
+      let currentLang = localStorage.getItem("appLanguage") || "es";
+
+      // Variables temporales para rastrear la selección actual
+      let selectedChannel = "";
+      let selectedSignal = "";
+
+      // Diccionario de imágenes asociadas a cada combinación única
+      const diagramImages = {
+        Televen_Video_Contribucion: "public/assets/images/televen.jpeg",
+        Televen_Audio_Contribucion: "public/assets/images/televen.jpeg",
+
+        CCS_Movie_Video_Contribucion: "public/assets/images/ccsmovie.jpeg",
+        CCS_Movie_Audio_Contribucion: "public/assets/images/ccsmovie.jpeg",
+
+        CCS_Documental_Video_Contribucion:
+          "public/assets/images/ccsdocumental.jpeg",
+        CCS_Documental_Audio_Contribucion:
+          "public/assets/images/ccsdocumental.jpeg",
+      };
+
+      // 1. Lógica Bilingüe
+      function updateLanguage(lang) {
+        const translatableElements =
+          document.querySelectorAll("[data-es][data-en]");
+        translatableElements.forEach((el) => {
+          el.innerHTML = el.getAttribute(`data-${lang}`);
+        });
+
+        if (lang === "es") {
+          toggleBtn.textContent = "Switch to English 🇺🇸";
+        } else {
+          toggleBtn.textContent = "Cambiar a Español 🇻🇪";
+        }
+        localStorage.setItem("appLanguage", lang);
+      }
+
+      toggleBtn.addEventListener("click", () => {
+        currentLang = currentLang === "es" ? "en" : "es";
+        updateLanguage(currentLang);
+      });
+
+      // 2. Lógica del Árbol Interactivo
+      function hideAllMenus() {
+        const menus = document.querySelectorAll(".dropdown-menu");
+        menus.forEach((menu) => menu.classList.add("hidden"));
+      }
+
+      function toggleMenu(menuId) {
+        const menu = document.getElementById(menuId);
+        if (menu.classList.contains("hidden")) {
+          hideAllMenus();
+          menu.classList.remove("hidden");
+        } else {
+          hideAllMenus();
+        }
+      }
+
+      function selectStep(nextMenuId) {
+        hideAllMenus();
+        document.getElementById(nextMenuId).classList.remove("hidden");
+        updateLanguage(currentLang);
+      }
+
+      function setChannelAndStep(channelName, nextMenuId) {
+        selectedChannel = channelName;
+        selectStep(nextMenuId);
+      }
+
+      function setSignalAndStep(signalName, nextMenuId) {
+        selectedSignal = signalName;
+        selectStep(nextMenuId);
+      }
+
+      function finalizeSelection(platformName) {
+        hideAllMenus();
+
+        const key = `${selectedChannel}_${selectedSignal}_${platformName}`;
+        const imagePath = diagramImages[key];
+        const diagramDiv = document.querySelector(".diagram-placeholder");
+        const placeholderText = document.getElementById("placeholder-text");
+        const diagramImage = document.getElementById("diagram-image");
+
+        const titleText =
+          currentLang === "es" ? "Diagrama Solicitado:" : "Requested Diagram:";
+
+        if (imagePath) {
+          placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.1rem;">${titleText}<br/><b>${selectedChannel} - ${selectedSignal} (${platformName})</b></span>`;
+          diagramImage.src = imagePath;
+          diagramImage.style.display = "block";
+        } else {
+          placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.1rem;">${titleText}<br/><b>${selectedChannel} - ${selectedSignal} (${platformName})</b></span><br/><br/>[ Imagen pendiente de asociar en la ruta: ${key} ]`;
+          diagramImage.style.display = "none";
+        }
+
+        diagramDiv.style.borderColor = "var(--naranja-boton)";
+      }
+
+      // Inicialización al cargar la página
+      updateLanguage(currentLang);
+      // Función para reiniciar el diagnóstico
+      function resetDiagnosis() {
+        selectedChannel = "";
+        selectedSignal = "";
+        hideAllMenus();
+
+        const placeholderText = document.getElementById("placeholder-text");
+        const diagramImage = document.getElementById("diagram-image");
+        const diagramDiv = document.querySelector(".diagram-placeholder");
+
+        // Restaurar textos originales con soporte bilingüe
+        placeholderText.setAttribute(
+          "data-es",
+          "[ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]",
+        );
+        placeholderText.setAttribute(
+          "data-en",
+          "[ RESERVED AREA FOR FLOWCHART DIAGRAM / SVG FILE ]",
+        );
+
+        diagramImage.style.display = "none";
+        diagramImage.src = "";
+        diagramDiv.style.borderColor = "";
+
+        updateLanguage(currentLang);
+      }
+    </script>
+  </body>
+</html>

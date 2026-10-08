@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Administrador - Telepuerto Banda C</title>
+    <link rel="stylesheet" href="./src/css/indexstyle.css" />
+  </head>
+  <body style="padding: 30px">
+    <div style="max-width: 1000px; margin: 0 auto">
+      <header
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 2px solid var(--azul-interfaz, #3b82f6);
+          padding-bottom: 15px;
+          margin-bottom: 30px;
+        "
+      >
+        <div>
+          <h1 style="color: var(--naranja-boton, #f07316); margin: 0">
+            Panel de Administración
+          </h1>
+          <p style="color: var(--texto-secundario, #94a368); margin: 5px 0 0 0">
+            REDTV, C.A. - Control y Gestión del Sistema
+          </p>
+        </div>
+        <a
+          href="index.html"
+          style="
+            padding: 8px 15px;
+            background: #334155;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+          "
+          >Cerrar Sesión</a
+        >
+      </header>
+
+      <!-- Métricas y Bondades del Admin -->
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 20px;
+          margin-bottom: 30px;
+        "
+      >
+        <div
+          style="
+            background: var(--bg-tarjeta, #131c31);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #f07316;
+          "
+        >
+          <h3 style="margin: 0 0 10px 0; font-size: 1rem">Técnicos Activos</h3>
+          <p
+            style="
+              font-size: 1.8rem;
+              font-weight: bold;
+              margin: 0;
+              color: #4ade80;
+            "
+          >
+            100%
+          </p>
+          <small style="color: #94a368"
+            >Personal capacitado en plataforma</small
+          >
+        </div>
+        <div
+          style="
+            background: var(--bg-tarjeta, #131c31);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+          "
+        >
+          <h3 style="margin: 0 0 10px 0; font-size: 1rem">Meta de Reducción</h3>
+          <p
+            style="
+              font-size: 1.8rem;
+              font-weight: bold;
+              margin: 0;
+              color: #3b82f6;
+            "
+          >
+            20%
+          </p>
+          <small style="color: #94a368">En tiempo de respuesta de fallas</small>
+        </div>
+        <div
+          style="
+            background: var(--bg-tarjeta, #131c31);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #eab308;
+          "
+        >
+          <h3 style="margin: 0 0 10px 0; font-size: 1rem">
+            Flujos Configurados
+          </h3>
+          <p
+            style="
+              font-size: 1.8rem;
+              font-weight: bold;
+              margin: 0;
+              color: #eab308;
+            "
+          >
+            7 Módulos
+          </p>
+          <small style="color: #94a368">4 de Video / 3 de Audio</small>
+        </div>
+      </div>
+
+      <!-- Sección de Gestión para el Administrador -->
+      <div
+        style="
+          background: var(--bg-tarjeta, #131c31);
+          padding: 25px;
+          border-radius: 8px;
+          border: 1px solid var(--azul-interfaz, #3b82f6);
+        "
+      >
+        <h2 style="margin-top: 0; color: white">
+          Herramientas de Control Gerencial
+        </h2>
+        <p style="color: var(--texto-secundario)">
+          Desde este panel el administrador puede supervisar los reportes
+          generados, auditar el rendimiento de los equipos de transmisión C-Band
+          (RF, LNB, IRD, Encoders) y gestionar las actualizaciones de los flujos
+          de trabajo.
+        </p>
+
+        <ul style="line-height: 1.8; color: var(--texto-principal)">
+          <li>
+            📊 **Auditoría de Reportes:** Visualización de registros de fallas
+            copiados por los técnicos.
+          </li>
+          <li>
+            ⚙️ **Configuración de Equipos:** Actualización de parámetros
+            críticos para enlaces C-Band.
+          </li>
+          <li>
+            👥 **Gestión de Accesos:** Control de perfiles operativos para el
+            personal del telepuerto.
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      // Verificamos si el usuario logueado es administrador
+      const userType = localStorage.getItem("redtv_user_type");
+      if (userType !== "admin") {
+        alert("Acceso no autorizado. Redirigiendo al inicio.");
+        window.location.href = "index.html";
+      }
+    </script>
+  </body>
+</html>
