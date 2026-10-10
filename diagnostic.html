@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wireframe / Skeleton Layout — C-Band Teleport Webpage</title>
     <link rel="stylesheet" href="src/css/indexstyle.css" />
-    <!-- Librería jsPDF para generación de reportes en PDF -->
+    <!-- Librería jsPDF para generación de reportes y manuales en PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   </head>
   <body>
     <div class="wireframe-container">
-      <!-- Barra Superior: Enlace y Botón Conmutador de Idioma -->
+      <!-- Barra Superior: Enlaces, Descarga de Manual y Conmutador de Idioma -->
       <div class="top-bar">
         <a
           href="./index.html"
@@ -20,7 +20,23 @@
           >&larr; Volver al Dashboard de Presentación (index.html)</a
         >
 
-        <button id="lang-toggle" class="lang-btn">Switch to English 🇺🇸</button>
+        <div style="display: flex; gap: 10px; align-items: center">
+          <!-- Botón Descargar Manual de Usuario -->
+          <button
+            id="btn-download-manual"
+            class="lang-btn"
+            style="background-color: #2563eb; border-color: #3b82f6"
+            data-es="📖 Descargar Manual de Usuario"
+            data-en="📖 Download User Manual"
+          >
+            📖 Descargar Manual de Usuario
+          </button>
+
+          <!-- Botón Cambio de Idioma -->
+          <button id="lang-toggle" class="lang-btn">
+            Switch to English 🇺🇸
+          </button>
+        </div>
       </div>
 
       <!-- Encabezado Principal -->
@@ -247,7 +263,7 @@
           </button>
         </div>
 
-        <!-- Paso 6B: Detalle de Falla de Audio (Delay, Loss, Latency) para Canales -->
+        <!-- Paso 6B: Detalle de Falla de Audio -->
         <div id="menu-step-5-falla-audio" class="dropdown-menu hidden">
           <p
             class="menu-label"
@@ -334,7 +350,7 @@
 
       <!-- Estructura Principal -->
       <div class="main-grid">
-        <!-- Panel Izquierdo: Selección de Equipo RF / Baseband -->
+        <!-- Panel Izquierdo: Selección de Equipo -->
         <aside class="sidebar">
           <h3 data-es="Diagnóstico por Equipo" data-en="Equipment Diagnostics">
             [ BARRA LATERAL ] Diagnóstico por Equipo
@@ -384,7 +400,7 @@
           </div>
         </aside>
 
-        <!-- Área Central: Flujo Interactivo de Diagnóstico -->
+        <!-- Área Central -->
         <main class="content-area">
           <h3
             data-es="Árbol de Decisiones de Diagnóstico"
@@ -427,7 +443,7 @@
             </p>
           </div>
 
-          <!-- Espacio Reservado para el Diagrama con soporte de Imagen Automática -->
+          <!-- Espacio Reservado para el Diagrama -->
           <div class="diagram-placeholder">
             <p
               id="placeholder-text"
@@ -525,7 +541,7 @@
       </footer>
     </div>
 
-    <!-- HTML del Modal flotante para Zoom -->
+    <!-- Modal flotante para Zoom -->
     <div
       id="diagramModal"
       class="diagram-modal-overlay"
@@ -545,9 +561,8 @@
       >
     </div>
 
-    <!-- Script de Lógica Interactiva, Bilingüe y de Generación de PDF -->
+    <!-- Script de Lógica Interactiva, Bilingüe y Descarga de Manual -->
     <script>
-      // 🛡️ VALIDACIÓN DE ACCESO DE TÉCNICO
       const userType = localStorage.getItem("redtv_user_type");
       if (!userType) {
         window.location.href = "index.html";
@@ -570,15 +585,14 @@
       setInterval(updateClock, 1000);
 
       const toggleBtn = document.getElementById("lang-toggle");
+      const manualBtn = document.getElementById("btn-download-manual");
       let currentLang = localStorage.getItem("appLanguage") || "es";
 
-      // Variables de seguimiento de selección
       let selectedPlatform = "";
       let selectedService = "";
       let selectedSignal = "";
       let selectedFault = "";
 
-      // Diccionario de imágenes asociadas
       const diagramImages = {
         Red_Advenir_Video_Satelital_Pixelamiento:
           "public/assets/diagrams/RED_ADVENIR_PIXELATION.svg",
@@ -654,7 +668,6 @@
           "public/assets/diagrams/SHOWVEN_DELAY_LOSS_AND_LATENCY.svg",
       };
 
-      // Función para renderizar el encabezado del resultado de forma bilingüe
       function renderDiagramHeader() {
         if (!selectedFault) return;
         const placeholderText = document.getElementById("placeholder-text");
@@ -676,7 +689,6 @@
         placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.0rem;">${titleText}<br/><b>${serviceLabel}:</b> ${selectedService} | <b>${signalLabel}:</b> ${selectedSignal} | <b>${faultLabel}:</b> ${selectedFault}</span>`;
       }
 
-      // 1. Lógica Bilingüe
       function updateLanguage(lang) {
         currentLang = lang;
         const translatableElements =
@@ -692,7 +704,6 @@
         }
         localStorage.setItem("appLanguage", lang);
 
-        // Si ya hay una selección activa, actualiza los textos del resultado al idioma actual
         if (selectedFault) {
           renderDiagramHeader();
         }
@@ -703,7 +714,115 @@
         updateLanguage(newLang);
       });
 
-      // 2. Lógica del Árbol Interactivo
+      // LÓGICA DE DESCARGA DINÁMICA DEL MANUAL DE USUARIO EN PDF
+      if (manualBtn) {
+        manualBtn.addEventListener("click", () => {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+          const isEnglish = currentLang === "en";
+
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(14);
+          doc.setTextColor(37, 99, 235); // Azul corporativo
+
+          const title = isEnglish
+            ? "USER MANUAL - C-BAND TELEPORT TROUBLESHOOTING TOOL"
+            : "MANUAL DE USUARIO - SISTEMA DE DIAGNÓSTICO TELEPUERTO BANDA C";
+          doc.text(title, 15, 20);
+
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(10);
+          doc.setTextColor(50, 50, 50);
+
+          let y = 32;
+          const lines = isEnglish
+            ? [
+                "1. PURPOSE & OVERVIEW:",
+                "This application provides standard diagnostic workflows for C-Band Teleport field technicians",
+                "at REDTV (Caracas, Venezuela) to quickly identify, troubleshoot, and resolve video and audio signal faults.",
+                "",
+                "2. SYSTEM AUTHENTICATION:",
+                "- Access requires entering a valid technician ID or National ID number.",
+                "- Sessions are stored securely in local state to maintain access privileges during field ops.",
+                "",
+                "3. 6-STEP DIAGNOSTIC TREE WORKFLOW:",
+                "- Step 1: Select Fault Type (Main Selector).",
+                "- Step 2: Choose Channels (Television) or Radios (Audio Stations).",
+                "- Step 3: Select Platform (International Satellite vs. National Contribution).",
+                "- Step 4: Choose Service (Red Advenir, Televen, CCS Movie, CCS Documental, ShowVen).",
+                "- Step 5: Select Signal Type (Video vs. Audio).",
+                "- Step 6: Identify Specific Symptom (Pixelation, Freezing, Black Screen, Delay, Loss, Latency).",
+                "",
+                "4. INTERACTIVE DIAGRAM VIEWER & MODAL ZOOM:",
+                "- Selecting a fault dynamically loads the exact high-resolution vector SVG schematic.",
+                "- Click directly on any diagram to expand into full-screen modal zoom mode for detailed wiring checks.",
+                "",
+                "5. AUDITABLE PDF REPORT GENERATION:",
+                "- Click 'Download PDF Report' to generate an official timestamped diagnostic log including",
+                "  technician ID, platform parameters, fault category, and embedded schematic diagram.",
+                "",
+                "6. BILINGUAL SUPPORT:",
+                "- Switch seamlessly between Spanish and English using the top right toggle button.",
+              ]
+            : [
+                "1. PROPÓSITO Y DESCRIPCIÓN GENERAL:",
+                "Esta aplicación proporciona un procedimiento estandarizado de diagnóstico para los técnicos de campo",
+                "del Telepuerto Banda C de REDTV (Caracas, Venezuela) para aislar y resolver fallas de video y audio.",
+                "",
+                "2. AUTENTICACIÓN EN EL SISTEMA:",
+                "- El acceso requiere ingresar un número de cédula o ID de técnico validado.",
+                "- Las sesiones se guardan de forma segura en almacenamiento local durante las operaciones.",
+                "",
+                "3. NAVEGACIÓN EN EL ÁRBOL DE DECISIONES DE 6 PASOS:",
+                "- Paso 1: Seleccionar Tipo de Falla (Selector Principal).",
+                "- Paso 2: Elegir Canales (Televisión) o Radios (Emisoras).",
+                "- Paso 3: Seleccionar Plataforma (Satelital Internacional o Contribución Nacional).",
+                "- Paso 4: Elegir Servicio (Red Advenir, Televen, CCS Movie, CCS Documental, ShowVen).",
+                "- Paso 5: Seleccionar Tipo de Señal (Video o Audio).",
+                "- Paso 6: Identificar Falla Específica (Pixelamiento, Congelamiento, Pantalla en Negro, Retardo, Pérdida, Latencia).",
+                "",
+                "4. VISOR DE DIAGRAMAS INTERACTIVO Y ZOOM EN PANTALLA COMPLETA:",
+                "- Al finalizar la selección, el sistema carga el esquema vectorial SVG de alta resolución correspondiente.",
+                "- Haga clic sobre la imagen para abrir el modo ampliado y revisar detalladamente los puertos y cableados.",
+                "",
+                "5. GENERACIÓN DE REPORTES EN PDF AUDITABLES:",
+                "- Presione 'Descargar Reporte en PDF' para exportar una constancia formal con fecha, hora, ID del técnico,",
+                "  parámetros de señal y el diagrama técnico de diagnóstico consultado.",
+                "",
+                "6. SOPORTE BILINGÜE:",
+                "- Conmute dinámicamente entre Español e Inglés usando el botón superior derecho.",
+              ];
+
+          lines.forEach((line) => {
+            if (y > 270) {
+              doc.addPage();
+              y = 20;
+            }
+            if (
+              line.startsWith("1.") ||
+              line.startsWith("2.") ||
+              line.startsWith("3.") ||
+              line.startsWith("4.") ||
+              line.startsWith("5.") ||
+              line.startsWith("6.")
+            ) {
+              doc.setFont("helvetica", "bold");
+              doc.setTextColor(37, 99, 235);
+            } else {
+              doc.setFont("helvetica", "normal");
+              doc.setTextColor(50, 50, 50);
+            }
+            doc.text(line, 15, y);
+            y += 6;
+          });
+
+          const fileName = isEnglish
+            ? "REDTV_User_Manual_C_Band_Teleport.pdf"
+            : "REDTV_Manual_de_Usuario_Telepuerto_Banda_C.pdf";
+          doc.save(fileName);
+        });
+      }
+
       function hideAllMenus() {
         const menus = document.querySelectorAll(".dropdown-menu");
         menus.forEach((menu) => menu.classList.add("hidden"));
@@ -747,7 +866,6 @@
         selectStep(nextMenuId);
       }
 
-      // Paso final: Muestra el diagrama correspondiente
       function finalizeSelection(faultName) {
         selectedFault = faultName;
         hideAllMenus();
@@ -776,7 +894,6 @@
         diagramDiv.style.borderColor = "var(--naranja-boton)";
       }
 
-      // Función para reiniciar el diagnóstico
       function resetDiagnosis() {
         selectedPlatform = "";
         selectedService = "";
@@ -804,7 +921,6 @@
         updateLanguage(currentLang);
       }
 
-      // 3. Generación Automática de Reporte en PDF con jsPDF
       document.addEventListener("DOMContentLoaded", () => {
         const reportBtn = document.getElementById("copy-report-btn");
         const feedback = document.getElementById("copy-feedback");
@@ -828,10 +944,9 @@
               localStorage.getItem("redtv_user_name") || "Técnico";
             const techId = localStorage.getItem("redtv_user_id") || "N/A";
 
-            // Encabezado del PDF
             doc.setFont("helvetica", "bold");
             doc.setFontSize(14);
-            doc.setTextColor(240, 115, 22); // Naranja corporativo REDTV
+            doc.setTextColor(240, 115, 22);
             doc.text(
               isEnglish
                 ? "C-BAND TELEPORT DIAGNOSTIC REPORT"
@@ -884,7 +999,6 @@
             );
             y += 12;
 
-            // Incluir el diagrama consultado si está visible
             const diagramImage = document.getElementById("diagram-image");
             if (
               diagramImage &&
@@ -932,7 +1046,6 @@
               doc.save(`REDTV_Report_${selectedService}_${selectedFault}.pdf`);
             }
 
-            // Mensaje de éxito visual
             if (feedback) {
               feedback.style.display = "inline";
               setTimeout(() => {
@@ -944,7 +1057,6 @@
         updateLanguage(currentLang);
       });
 
-      // Lógica para abrir el Zoom al hacer clic en el diagrama
       const diagramImg = document.getElementById("diagram-image");
       const diagramModal = document.getElementById("diagramModal");
       const modalImg = document.getElementById("modalImage");
