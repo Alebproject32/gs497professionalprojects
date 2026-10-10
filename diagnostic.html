@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wireframe / Skeleton Layout — C-Band Teleport Webpage</title>
     <link rel="stylesheet" href="src/css/indexstyle.css" />
+    <!-- Librería jsPDF para generación de reportes en PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   </head>
   <body>
-    < class="wireframe-container">
+    <div class="wireframe-container">
       <!-- Barra Superior: Enlace y Botón Conmutador de Idioma -->
       <div class="top-bar">
         <a
@@ -46,7 +48,7 @@
         </div>
       </header>
 
-      <!-- Árbol de Decisiones Interactivo (Orden Corregido) -->
+      <!-- Árbol de Decisiones Interactivo -->
       <nav class="dynamic-nav">
         <!-- Paso 1: Botón Principal -->
         <button
@@ -79,7 +81,7 @@
           </button>
         </div>
 
-        <!-- Paso 3: Selección de Plataforma -->
+        <!-- Paso 3: Selección de Plataforma (Canales) -->
         <div id="menu-step-2-plataforma" class="dropdown-menu hidden">
           <p
             class="menu-label"
@@ -132,7 +134,7 @@
           </button>
         </div>
 
-        <!-- Paso 4B: Servicios exclusivos para Contribución (Televen, CCS Movie, CCS Documental) -->
+        <!-- Paso 4B: Servicios exclusivos para Contribución -->
         <div id="menu-step-contribucion-servicios" class="dropdown-menu hidden">
           <p
             class="menu-label"
@@ -245,7 +247,7 @@
           </button>
         </div>
 
-        <!-- Paso 6B: Detalle de Falla de Audio (Delay, Loss, Latency) -->
+        <!-- Paso 6B: Detalle de Falla de Audio (Delay, Loss, Latency) para Canales -->
         <div id="menu-step-5-falla-audio" class="dropdown-menu hidden">
           <p
             class="menu-label"
@@ -264,7 +266,7 @@
           </button>
           <button
             class="menu-btn final-action"
-            onclick="finalizeSelection('Loss')"
+            onclick="finalizeSelection('Perdida')"
             data-es="Pérdida (Loss)"
             data-en="Loss"
           >
@@ -272,7 +274,7 @@
           </button>
           <button
             class="menu-btn final-action"
-            onclick="finalizeSelection('Latency')"
+            onclick="finalizeSelection('Latencia')"
             data-es="Latencia (Latency)"
             data-en="Latency"
           >
@@ -280,46 +282,54 @@
           </button>
         </div>
 
-        <!-- Opción Radios (En desarrollo) -->
+        <!-- FLUJO DE RADIOS -->
         <div id="menu-step-radios-dev" class="dropdown-menu hidden">
-          <p data-es="Opciones de Radio" data-en="Radio options:">
-            Seleccionar Radio (Select Radio):
+          <p data-es="Seleccione la Radio:" data-en="Select Radio:">
+            Seleccione la Radio:
           </p>
           <button
-            class="menu-btn final-action"
-            onclick="finalizeSelection('ShowVen')"
+            class="menu-btn"
+            onclick="setRadioAndStep('ShowVen', 'menu-step-showven-audio')"
             data-es="ShowVen"
             data-en="ShowVen"
           >
             ShowVen
           </button>
         </div>
-          <div id="menu-step-radios-dev" class="dropdown-menu hidden">
-            <button
-              class="menu-btn final-action"
-              onclick="finalizeSelection('Delay')"
-              data-es="Retardo (Delay)"
-              data-en="Delay"
-            >
-              Retardo (Delay)
-            </button>
-            <button
-              class="menu-btn final-action"
-              onclick="finalizeSelection('Loss')"
-              data-es="Pérdida (Loss)"
-              data-en="Loss"
-            >
-              Pérdida (Loss)
-            </button>
-            <button
-              class="menu-btn final-action"
-              onclick="finalizeSelection('Latency')"
-              data-es="Latencia (Latency)"
-              data-en="Latency"
-            >
-              Latencia (Latency)
-            </button>
-          </div>
+
+        <!-- Menú de Fallas de Audio para ShowVen -->
+        <div id="menu-step-showven-audio" class="dropdown-menu hidden">
+          <p
+            data-es="Seleccione la Falla de Audio (ShowVen):"
+            data-en="Select Audio Fault (ShowVen):"
+          >
+            Seleccione la Falla de Audio (ShowVen):
+          </p>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Delay')"
+            data-es="Retardo (Delay)"
+            data-en="Delay"
+          >
+            Retardo (Delay)
+          </button>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Perdida')"
+            data-es="Pérdida (Loss)"
+            data-en="Loss"
+          >
+            Pérdida (Loss)
+          </button>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Latencia')"
+            data-es="Latencia (Latency)"
+            data-en="Latency"
+          >
+            Latencia (Latency)
+          </button>
+        </div>
       </nav>
 
       <!-- Estructura Principal -->
@@ -436,11 +446,12 @@
                 height: auto;
                 margin-top: 10px;
                 border-radius: 4px;
+                cursor: zoom-in;
               "
             />
           </div>
 
-          <!-- Botón Copiar Reporte -->
+          <!-- Botón Generar Reporte PDF -->
           <div
             class="report-action-container"
             style="margin-top: 20px; text-align: center"
@@ -457,10 +468,10 @@
                 cursor: pointer;
                 font-weight: bold;
               "
-              data-es="📋 Copiar Reporte al Portapapeles"
-              data-en="📋 Copy Report to Clipboard"
+              data-es="📥 Descargar Reporte en PDF"
+              data-en="📥 Download PDF Report"
             >
-              📋 Copiar Reporte al Portapapeles
+              📥 Descargar Reporte en PDF
             </button>
             <span
               id="copy-feedback"
@@ -470,9 +481,9 @@
                 color: #4ade80;
                 display: none;
               "
-              data-es="¡Reporte copiado!"
-              data-en="Report copied!"
-              >¡Reporte copiado!</span
+              data-es="¡PDF generado!"
+              data-en="PDF generated!"
+              >¡PDF generado!</span
             >
           </div>
 
@@ -513,7 +524,8 @@
         </div>
       </footer>
     </div>
-    <!-- HTML del Modal flotante -->
+
+    <!-- HTML del Modal flotante para Zoom -->
     <div
       id="diagramModal"
       class="diagram-modal-overlay"
@@ -533,7 +545,7 @@
       >
     </div>
 
-    <!-- Script de Lógica Interactiva, Bilingüe y de Diccionario de Imágenes -->
+    <!-- Script de Lógica Interactiva, Bilingüe y de Generación de PDF -->
     <script>
       // 🛡️ VALIDACIÓN DE ACCESO DE TÉCNICO
       const userType = localStorage.getItem("redtv_user_type");
@@ -560,7 +572,7 @@
       const toggleBtn = document.getElementById("lang-toggle");
       let currentLang = localStorage.getItem("appLanguage") || "es";
 
-      // Variables de seguimiento de selección en orden correcto
+      // Variables de seguimiento de selección
       let selectedPlatform = "";
       let selectedService = "";
       let selectedSignal = "";
@@ -568,7 +580,6 @@
 
       // Diccionario de imágenes asociadas
       const diagramImages = {
-        // Satellite images
         Red_Advenir_Video_Satelital_Pixelamiento:
           "public/assets/diagrams/RED_ADVENIR_PIXELATION.svg",
         Red_Advenir_Video_Satelital_Congelamiento:
@@ -577,7 +588,7 @@
           "public/assets/diagrams/RED_ADVENIR_BLACK_SCREEN_WITH_LOGO - Page 1.svg",
         Red_Advenir_Video_Satelital_Pantalla_en_Negro:
           "public/assets/diagrams/RED_ADVENIR_BLACK_SCREEN_AND_COLOR_BARS.svg",
-        Red_Advenir_Video_Satelital_Barra_de_Colores:
+        Red_Advenir_Video_Satelital_Barras_de_Color:
           "public/assets/diagrams/RED_ADVENIR_BLACK_SCREEN_AND_COLOR_BARS.svg",
         Red_Advenir_Audio_Satelital_Delay:
           "public/assets/diagrams/RED_ADVENIR - Page 1.svg",
@@ -585,7 +596,7 @@
           "public/assets/diagrams/RED_ADVENIR - Page 1.svg",
         Red_Advenir_Audio_Satelital_Latencia:
           "public/assets/diagrams/RED_ADVENIR - Page 1.svg",
-        // Contribution images
+
         Televen_Video_Contribucion_Pixelamiento:
           "public/assets/images/televen.jpeg",
         Televen_Video_Contribucion_Congelamiento:
@@ -594,45 +605,80 @@
           "public/assets/images/televen.jpeg",
         Televen_Video_Contribucion_Pantalla_en_Negro:
           "public/assets/images/televen.jpeg",
-        Televen_Video_Contribucion_Barra_de_Colores:
+        Televen_Video_Contribucion_Barras_de_Color:
           "public/assets/images/televen.jpeg",
         Televen_Audio_Contribucion_Delay: "public/assets/images/televen.jpeg",
         Televen_Audio_Contribucion_Perdida: "public/assets/images/televen.jpeg",
         Televen_Audio_Contribucion_Latencia:
           "public/assets/images/televen.jpeg",
-        CCS_Movie_Video_Pixelamiento: "public/assets/diagrams/ccsmovie.svg",
-        CCS_Movie_Video_Congelamiento:
+
+        CCS_Movie_Video_Contribucion_Pixelamiento:
+          "public/assets/diagrams/ccsmovie.svg",
+        CCS_Movie_Video_Contribucion_Congelamiento:
           "public/assets/diagrams/ccsmovie - page 1.svg",
-        CCS_Movie_Video_Pantalla_en_Negro_con_logo:
+        CCS_Movie_Video_Contribucion_Pantalla_en_Negro_con_logo:
           "public/assets/diagrams/ccsmovie - page 1.svg",
-        CCS_Movie_Video_Pantalla_en_Negro:
+        CCS_Movie_Video_Contribucion_Pantalla_en_Negro:
           "public/assets/diagrams/CCSMOVIE - Page 1.svg",
-        CCS_Movie_Video_Barra_de_Colores:
+        CCS_Movie_Video_Contribucion_Barras_de_Color:
           "public/assets/diagrams/CCSMOVIE - Page 1.svg",
-        CCS_Movie_Audio_Delay: "public/assets/diagrams/CCSMOVIE - Page 1.svg",
-        CCS_Movie_Audio_Perdida: "public/assets/diagrams/CCSMOVIE - Page 1.svg",
-        CCS_Movie_Audio_Latencia:
+        CCS_Movie_Audio_Contribucion_Delay:
           "public/assets/diagrams/CCSMOVIE - Page 1.svg",
-        CCS_Documental_Video_Pixelamiento:
+        CCS_Movie_Audio_Contribucion_Perdida:
+          "public/assets/diagrams/CCSMOVIE - Page 1.svg",
+        CCS_Movie_Audio_Contribucion_Latencia:
+          "public/assets/diagrams/CCSMOVIE - Page 1.svg",
+
+        CCS_Documental_Video_Contribucion_Pixelamiento:
           "public/assets/diagrams/CCSDOCUMENTAL - Page 1.svg",
-        CCS_Documental_Video_Congelamiento:
+        CCS_Documental_Video_Contribucion_Congelamiento:
           "public/assets/diagrams/CCSDOCUMENTAL - Page 1.svg",
-        CCS_Documental_Video_Pantalla_en_Negro_con_logo:
+        CCS_Documental_Video_Contribucion_Pantalla_en_Negro_con_logo:
           "public/assets/diagrams/CCSDOCUMENTAL - Page 1.svg",
-        CCS_Documental_Video_Pantalla_en_Negro:
+        CCS_Documental_Video_Contribucion_Pantalla_en_Negro:
           "public/assets/diagrams/CCSDOCUMENTAL - Page 1.svg",
-        CCS_Documental_Video_Barra_de_Colores:
+        CCS_Documental_Video_Contribucion_Barras_de_Color:
           "public/assets/diagrams/CCSDOCUMENTAL - Page 1.svg",
-        CCS_Documental_Audio_Delay:
+        CCS_Documental_Audio_Contribucion_Delay:
           "public/assets/diagrams/CCSMOVIE - Page 1.svg",
-        CCS_Documental_Audio_Perdida:
+        CCS_Documental_Audio_Contribucion_Perdida:
           "public/assets/diagrams/CCSMOVIE - Page 1.svg",
-        CCS_Documental_Audio_Latencia:
+        CCS_Documental_Audio_Contribucion_Latencia:
           "public/assets/diagrams/CCSMOVIE - Page 1.svg",
+
+        ShowVen_Audio_Delay:
+          "public/assets/diagrams/SHOWVEN_DELAY_LOSS_AND_LATENCY.svg",
+        ShowVen_Audio_Perdida:
+          "public/assets/diagrams/SHOWVEN_DELAY_LOSS_AND_LATENCY.svg",
+        ShowVen_Audio_Latencia:
+          "public/assets/diagrams/SHOWVEN_DELAY_LOSS_AND_LATENCY.svg",
       };
+
+      // Función para renderizar el encabezado del resultado de forma bilingüe
+      function renderDiagramHeader() {
+        if (!selectedFault) return;
+        const placeholderText = document.getElementById("placeholder-text");
+        const titleText =
+          currentLang === "es"
+            ? "Diagrama de Diagnóstico Específico:"
+            : "Specific Diagnostic Diagram:";
+        const serviceLabel =
+          currentLang === "es"
+            ? selectedPlatform === "Radio"
+              ? "Radio"
+              : "Servicio"
+            : selectedPlatform === "Radio"
+              ? "Radio"
+              : "Service";
+        const signalLabel = currentLang === "es" ? "Señal" : "Signal";
+        const faultLabel = currentLang === "es" ? "Falla" : "Fault";
+
+        placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.0rem;">${titleText}<br/><b>${serviceLabel}:</b> ${selectedService} | <b>${signalLabel}:</b> ${selectedSignal} | <b>${faultLabel}:</b> ${selectedFault}</span>`;
+      }
 
       // 1. Lógica Bilingüe
       function updateLanguage(lang) {
+        currentLang = lang;
         const translatableElements =
           document.querySelectorAll("[data-es][data-en]");
         translatableElements.forEach((el) => {
@@ -645,11 +691,16 @@
           toggleBtn.textContent = "Cambiar a Español 🇻🇪";
         }
         localStorage.setItem("appLanguage", lang);
+
+        // Si ya hay una selección activa, actualiza los textos del resultado al idioma actual
+        if (selectedFault) {
+          renderDiagramHeader();
+        }
       }
 
       toggleBtn.addEventListener("click", () => {
-        currentLang = currentLang === "es" ? "en" : "es";
-        updateLanguage(currentLang);
+        const newLang = currentLang === "es" ? "en" : "es";
+        updateLanguage(newLang);
       });
 
       // 2. Lógica del Árbol Interactivo
@@ -689,32 +740,37 @@
         selectStep(nextMenuId);
       }
 
+      function setRadioAndStep(radioName, nextMenuId) {
+        selectedService = radioName;
+        selectedPlatform = "Radio";
+        selectedSignal = "Audio";
+        selectStep(nextMenuId);
+      }
+
       // Paso final: Muestra el diagrama correspondiente
       function finalizeSelection(faultName) {
         selectedFault = faultName;
         hideAllMenus();
 
         const cleanFault = selectedFault.replace(/\s+/g, "_");
-        const key = `${selectedService}_${selectedSignal}_${selectedPlatform}_${cleanFault}`;
+        let key = "";
+        if (selectedPlatform === "Radio") {
+          key = `${selectedService}_${selectedSignal}_${cleanFault}`;
+        } else {
+          key = `${selectedService}_${selectedSignal}_${selectedPlatform}_${cleanFault}`;
+        }
+
         const imagePath = diagramImages[key];
         const diagramDiv = document.querySelector(".diagram-placeholder");
-        const placeholderText = document.getElementById("placeholder-text");
         const diagramImage = document.getElementById("diagram-image");
 
-        const titleText =
-          currentLang === "es"
-            ? "Diagrama de Diagnóstico Específico:"
-            : "Specific Diagnostic Diagram:";
+        renderDiagramHeader();
 
         if (imagePath) {
-          placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.0rem;">${titleText}<br/><b>Plataforma:</b> ${selectedPlatform} | <b>Servicio:</b> ${selectedService} | <b>Señal:</b> ${selectedSignal} | <b>Falla:</b> ${selectedFault}</span>`;
           diagramImage.src = imagePath;
           diagramImage.style.display = "block";
         } else {
-          placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.0rem;">${titleText}<br/><b>Plataforma:</b> ${selectedPlatform} | <b>Servicio:</b> ${selectedService} | <b>Señal:</b> ${selectedSignal} | <b>Falla:</b> ${selectedFault}</span><br/><br/>[ Imagen asociada para ${selectedService} ]`;
-          // Fallback automático si existe una imagen base del servicio
-          diagramImage.src = `public/assets/diagrams/${selectedService.toLowerCase().replace("_", "")}.svg`;
-          diagramImage.style.display = "block";
+          diagramImage.style.display = "none";
         }
 
         diagramDiv.style.borderColor = "var(--naranja-boton)";
@@ -748,64 +804,146 @@
         updateLanguage(currentLang);
       }
 
-      // Lógica del botón de Copiar Reporte
+      // 3. Generación Automática de Reporte en PDF con jsPDF
       document.addEventListener("DOMContentLoaded", () => {
-        const copyBtn = document.getElementById("copy-report-btn");
+        const reportBtn = document.getElementById("copy-report-btn");
         const feedback = document.getElementById("copy-feedback");
 
-        if (copyBtn) {
-          copyBtn.addEventListener("click", () => {
+        if (reportBtn) {
+          reportBtn.addEventListener("click", () => {
+            if (!selectedFault) {
+              alert(
+                currentLang === "es"
+                  ? "Por favor complete el flujo de diagnóstico antes de generar el reporte PDF."
+                  : "Please complete the diagnostic workflow before generating the PDF report.",
+              );
+              return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
             const isEnglish = currentLang === "en";
             const now = new Date().toLocaleString();
             const techName =
               localStorage.getItem("redtv_user_name") || "Técnico";
             const techId = localStorage.getItem("redtv_user_id") || "N/A";
 
-            let reportText = "";
-            if (isEnglish) {
-              reportText = `--- C-BAND TELEPORT DIAGNOSTIC REPORT ---
-• Date/Time: ${now}
-• Technician: ${techName} (ID: ${techId})
-• Station: REDTV, C.A.
-• Platform: ${selectedPlatform || "N/A"}
-• Service: ${selectedService || "N/A"}
-• Signal Type: ${selectedSignal || "N/A"}
-• Fault Type: ${selectedFault || "N/A"}
-• Status: Troubleshooting compiled successfully.
---------------------------------------------`;
+            // Encabezado del PDF
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(14);
+            doc.setTextColor(240, 115, 22); // Naranja corporativo REDTV
+            doc.text(
+              isEnglish
+                ? "C-BAND TELEPORT DIAGNOSTIC REPORT"
+                : "REPORTE DE DIAGNÓSTICO DE TELEPUERTO BANDA C",
+              15,
+              20,
+            );
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            doc.setTextColor(60, 60, 60);
+
+            let y = 30;
+            doc.text(
+              `${isEnglish ? "Date/Time" : "Fecha/Hora"}: ${now}`,
+              15,
+              y,
+            );
+            y += 7;
+            doc.text(
+              `${isEnglish ? "Technician" : "Técnico"}: ${techName} (ID/Cédula: ${techId})`,
+              15,
+              y,
+            );
+            y += 7;
+            doc.text(`Station: REDTV, C.A. (Caracas, Venezuela)`, 15, y);
+            y += 7;
+            doc.text(
+              `${isEnglish ? "Platform" : "Plataforma"}: ${selectedPlatform || "N/A"}`,
+              15,
+              y,
+            );
+            y += 7;
+            doc.text(
+              `${isEnglish ? "Service/Radio" : "Servicio/Radio"}: ${selectedService || "N/A"}`,
+              15,
+              y,
+            );
+            y += 7;
+            doc.text(
+              `${isEnglish ? "Signal Type" : "Tipo de Señal"}: ${selectedSignal || "N/A"}`,
+              15,
+              y,
+            );
+            y += 7;
+            doc.text(
+              `${isEnglish ? "Fault Type" : "Tipo de Falla"}: ${selectedFault || "N/A"}`,
+              15,
+              y,
+            );
+            y += 12;
+
+            // Incluir el diagrama consultado si está visible
+            const diagramImage = document.getElementById("diagram-image");
+            if (
+              diagramImage &&
+              diagramImage.style.display !== "none" &&
+              diagramImage.src
+            ) {
+              doc.setFont("helvetica", "bold");
+              doc.text(
+                isEnglish
+                  ? "Consulted Diagnostic Diagram:"
+                  : "Diagrama de Diagnóstico Consultado:",
+                15,
+                y,
+              );
+              y += 5;
+
+              try {
+                const img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.src = diagramImage.src;
+                img.onload = function () {
+                  const canvas = document.createElement("canvas");
+                  canvas.width = img.width;
+                  canvas.height = img.height;
+                  const ctx = canvas.getContext("2d");
+                  ctx.drawImage(img, 0, 0);
+                  const imgData = canvas.toDataURL("image/png");
+                  doc.addImage(imgData, "PNG", 15, y, 180, 95);
+                  doc.save(
+                    `REDTV_Report_${selectedService}_${selectedFault}.pdf`,
+                  );
+                };
+                img.onerror = function () {
+                  doc.save(
+                    `REDTV_Report_${selectedService}_${selectedFault}.pdf`,
+                  );
+                };
+              } catch (e) {
+                console.error("Error embedding image into PDF: ", e);
+                doc.save(
+                  `REDTV_Report_${selectedService}_${selectedFault}.pdf`,
+                );
+              }
             } else {
-              reportText = `--- REPORTE DE DIAGNÓSTICO DE TELEPUERTO BANDA C ---
-• Fecha/Hora: ${now}
-• Técnico: ${techName} (Cédula: ${techId})
-• Estación: REDTV, C.A.
-• Plataforma: ${selectedPlatform || "N/A"}
-• Servicio: ${selectedService || "N/A"}
-• Tipo de Señal: ${selectedSignal || "N/A"}
-• Tipo de Falla: ${selectedFault || "N/A"}
-• Estado: Pasos de diagnóstico recopilados exitosamente.
---------------------------------------------------`;
+              doc.save(`REDTV_Report_${selectedService}_${selectedFault}.pdf`);
             }
 
-            navigator.clipboard
-              .writeText(reportText)
-              .then(() => {
-                if (feedback) {
-                  feedback.innerText = isEnglish
-                    ? "Report copied!"
-                    : "¡Reporte copiado!";
-                  feedback.style.display = "inline";
-                  setTimeout(() => {
-                    feedback.style.display = "none";
-                  }, 3000);
-                }
-              })
-              .catch((err) => {
-                console.error("Error copying to clipboard: ", err);
-              });
+            // Mensaje de éxito visual
+            if (feedback) {
+              feedback.style.display = "inline";
+              setTimeout(() => {
+                feedback.style.display = "none";
+              }, 3000);
+            }
           });
         }
         updateLanguage(currentLang);
       });
+
       // Lógica para abrir el Zoom al hacer clic en el diagrama
       const diagramImg = document.getElementById("diagram-image");
       const diagramModal = document.getElementById("diagramModal");
