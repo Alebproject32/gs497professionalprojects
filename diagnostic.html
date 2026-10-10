@@ -568,6 +568,11 @@
         window.location.href = "index.html";
       }
 
+      const toggleBtn = document.getElementById("lang-toggle");
+      const manualBtn = document.getElementById("btn-download-manual");
+      let currentLang = localStorage.getItem("appLanguage") || "es";
+
+      // Función para actualizar la fecha y hora respetando el idioma activo
       function updateClock() {
         const now = new Date();
         const options = {
@@ -578,15 +583,15 @@
           minute: "2-digit",
           second: "2-digit",
         };
-        document.getElementById("live-clock").innerText =
-          now.toLocaleDateString("es-ES", options);
+        // Selecciona el formato regional dinámicamente según el idioma
+        const locale = currentLang === "en" ? "en-US" : "es-ES";
+        const clockElement = document.getElementById("live-clock");
+        if (clockElement) {
+          clockElement.innerText = now.toLocaleDateString(locale, options);
+        }
       }
       updateClock();
       setInterval(updateClock, 1000);
-
-      const toggleBtn = document.getElementById("lang-toggle");
-      const manualBtn = document.getElementById("btn-download-manual");
-      let currentLang = localStorage.getItem("appLanguage") || "es";
 
       let selectedPlatform = "";
       let selectedService = "";
@@ -707,6 +712,8 @@
         if (selectedFault) {
           renderDiagramHeader();
         }
+        // Actualiza el reloj de inmediato al cambiar idioma
+        updateClock();
       }
 
       toggleBtn.addEventListener("click", () => {
@@ -714,7 +721,7 @@
         updateLanguage(newLang);
       });
 
-      // LÓGICA DE DESCARGA DINÁMICA DEL MANUAL DE USUARIO EN PDF
+      // Lógica de descarga dinámica del Manual de Usuario en PDF
       if (manualBtn) {
         manualBtn.addEventListener("click", () => {
           const { jsPDF } = window.jspdf;
@@ -723,7 +730,7 @@
 
           doc.setFont("helvetica", "bold");
           doc.setFontSize(14);
-          doc.setTextColor(37, 99, 235); // Azul corporativo
+          doc.setTextColor(37, 99, 235);
 
           const title = isEnglish
             ? "USER MANUAL - C-BAND TELEPORT TROUBLESHOOTING TOOL"
