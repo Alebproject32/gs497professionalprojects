@@ -290,6 +290,55 @@ header {
 .btn-primary:hover {
   background-color: #2b6cb0;
 }
+/* Cursor de lupa sobre el diagrama */
+#diagram-image {
+  cursor: zoom-in;
+  transition: transform 0.2s ease;
+}
+
+/* Fondo oscuro de pantalla completa */
+.diagram-modal-overlay {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(11, 17, 33, 0.95);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* Imagen ampliada dentro del modal */
+.diagram-modal-content {
+  max-width: 92%;
+  max-height: 85vh;
+  object-fit: contain;
+  border: 2px solid var(--naranja-boton, #f07316);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+/* Botón de cierre */
+.diagram-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.diagram-modal-hint {
+  color: #94a368;
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
 
 /* =========================================
    PIE DE PÁGINA

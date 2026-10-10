@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="src/css/indexstyle.css" />
   </head>
   <body>
-    <div class="wireframe-container">
+    < class="wireframe-container">
       <!-- Barra Superior: Enlace y Botón Conmutador de Idioma -->
       <div class="top-bar">
         <a
@@ -23,14 +23,12 @@
 
       <!-- Encabezado Principal -->
       <header>
-        <!-- Imagen insertada en el HTML -->
         <img
           src="public/assets/images/imagen-satelital.jpg"
           alt="Satélite y Tierra"
           class="imagen-fondo-header"
         />
 
-        <!-- Contenedor para el texto por encima de la imagen -->
         <div class="contenido-header">
           <h2
             data-es="Sistema Interactivo de Diagnóstico de Telepuerto Banda C"
@@ -48,24 +46,24 @@
         </div>
       </header>
 
-      <!-- Barra de Navegación / Selector de Fallas Interactivo -->
+      <!-- Árbol de Decisiones Interactivo (Orden Corregido) -->
       <nav class="dynamic-nav">
-        <!-- Botón Principal -->
+        <!-- Paso 1: Botón Principal -->
         <button
           id="btn-start-selector"
           class="nav-item main-selector"
-          onclick="toggleMenu('menu-step-1')"
+          onclick="toggleMenu('menu-step-1-canales-radios')"
           data-es="Seleccionar Tipo de Falla ▼"
           data-en="Select Fault Type ▼"
         >
           [ SELECCIONAR ] Seleccionar Tipo de Falla ▼
         </button>
 
-        <!-- Paso 1: Canales o Radios -->
-        <div id="menu-step-1" class="dropdown-menu hidden">
+        <!-- Paso 2: Canales - Radios -->
+        <div id="menu-step-1-canales-radios" class="dropdown-menu hidden">
           <button
             class="menu-btn"
-            onclick="selectStep('menu-step-2-canales')"
+            onclick="selectStep('menu-step-2-plataforma')"
             data-es="Canales"
             data-en="Channels"
           >
@@ -73,7 +71,7 @@
           </button>
           <button
             class="menu-btn"
-            onclick="selectStep('menu-step-2-radios')"
+            onclick="selectStep('menu-step-radios-dev')"
             data-es="Radios"
             data-en="Radios"
           >
@@ -81,18 +79,71 @@
           </button>
         </div>
 
-        <!-- Paso 2 (Canales): Televen, CCS Movie, CCS Documental -->
-        <div id="menu-step-2-canales" class="dropdown-menu hidden">
+        <!-- Paso 3: Selección de Plataforma -->
+        <div id="menu-step-2-plataforma" class="dropdown-menu hidden">
           <p
             class="menu-label"
-            data-es="Seleccione el Canal:"
-            data-en="Select Channel:"
+            data-es="Seleccione la Plataforma:"
+            data-en="Select Platform:"
           >
-            Seleccione el Canal:
+            Seleccione la Plataforma:
           </p>
           <button
             class="menu-btn"
-            onclick="setChannelAndStep('Televen', 'menu-step-3-tipo-senal')"
+            onclick="
+              setPlatformAndStep('Satelital', 'menu-step-satelital-servicios')
+            "
+            data-es="Satelital (Internacional)"
+            data-en="Satellite (International)"
+          >
+            Satelital (Internacional)
+          </button>
+          <button
+            class="menu-btn"
+            onclick="
+              setPlatformAndStep(
+                'Contribucion',
+                'menu-step-contribucion-servicios',
+              )
+            "
+            data-es="Contribución (Nacional)"
+            data-en="Contribution (National)"
+          >
+            Contribución (Nacional)
+          </button>
+        </div>
+
+        <!-- PASO 4A: Servicios exclusivos para SATELITAL -->
+        <div id="menu-step-satelital-servicios" class="dropdown-menu hidden">
+          <p
+            class="menu-label"
+            data-es="Seleccione el Canal Satelital:"
+            data-en="Select Satellite Channel:"
+          >
+            Seleccione el Canal Satelital:
+          </p>
+          <button
+            class="menu-btn"
+            onclick="setServiceAndStep('Red_Advenir', 'menu-step-4-senal')"
+            data-es="Red Advenir"
+            data-en="Red Advenir"
+          >
+            Red Advenir
+          </button>
+        </div>
+
+        <!-- Paso 4B: Servicios exclusivos para Contribución (Televen, CCS Movie, CCS Documental) -->
+        <div id="menu-step-contribucion-servicios" class="dropdown-menu hidden">
+          <p
+            class="menu-label"
+            data-es="Seleccione el Canal de Contribución:"
+            data-en="Select Contribution Channel:"
+          >
+            Seleccione el Canal de Contribución:
+          </p>
+          <button
+            class="menu-btn"
+            onclick="setServiceAndStep('Televen', 'menu-step-4-senal')"
             data-es="Televen"
             data-en="Televen"
           >
@@ -100,7 +151,7 @@
           </button>
           <button
             class="menu-btn"
-            onclick="setChannelAndStep('CCS_Movie', 'menu-step-3-tipo-senal')"
+            onclick="setServiceAndStep('CCS_Movie', 'menu-step-4-senal')"
             data-es="CCS Movie"
             data-en="CCS Movie"
           >
@@ -108,9 +159,7 @@
           </button>
           <button
             class="menu-btn"
-            onclick="
-              setChannelAndStep('CCS_Documental', 'menu-step-3-tipo-senal')
-            "
+            onclick="setServiceAndStep('CCS_Documental', 'menu-step-4-senal')"
             data-es="CCS Documental"
             data-en="CCS Documental"
           >
@@ -118,8 +167,8 @@
           </button>
         </div>
 
-        <!-- Paso 3: Selección de Tipo de Señal (Video o Audio) -->
-        <div id="menu-step-3-tipo-senal" class="dropdown-menu hidden">
+        <!-- Paso 5: Tipo de Señal (Video - Audio) -->
+        <div id="menu-step-4-senal" class="dropdown-menu hidden">
           <p
             class="menu-label"
             data-es="Seleccione el Tipo de Señal:"
@@ -129,7 +178,7 @@
           </p>
           <button
             class="menu-btn"
-            onclick="setSignalAndStep('Video', 'menu-step-4-plataforma')"
+            onclick="setSignalAndStep('Video', 'menu-step-5-falla-video')"
             data-es="Video"
             data-en="Video"
           >
@@ -137,7 +186,7 @@
           </button>
           <button
             class="menu-btn"
-            onclick="setSignalAndStep('Audio', 'menu-step-4-plataforma')"
+            onclick="setSignalAndStep('Audio', 'menu-step-5-falla-audio')"
             data-es="Audio"
             data-en="Audio"
           >
@@ -145,42 +194,132 @@
           </button>
         </div>
 
-        <!-- Paso 4: Plataforma (Satelital o Contribución) -> Ejecución Final -->
-        <div id="menu-step-4-plataforma" class="dropdown-menu hidden">
+        <!-- Paso 6A: Detalle de Falla de Video -->
+        <div id="menu-step-5-falla-video" class="dropdown-menu hidden">
           <p
             class="menu-label"
-            data-es="Seleccione la Plataforma:"
-            data-en="Select Platform:"
+            data-es="Seleccione el Tipo de Falla Específica:"
+            data-en="Select Specific Fault Type:"
           >
-            Seleccione la Plataforma:
+            Seleccione el Tipo de Falla Específica:
           </p>
           <button
             class="menu-btn final-action"
-            onclick="finalizeSelection('Satelital')"
-            data-es="Satelital (Internacional)"
-            data-en="Satellite (International)"
+            onclick="finalizeSelection('Pixelamiento')"
+            data-es="Pixelamiento"
+            data-en="Pixelation"
           >
-            Satelital (Internacional)
+            Pixelamiento
           </button>
           <button
             class="menu-btn final-action"
-            onclick="finalizeSelection('Contribucion')"
-            data-es="Contribución (Nacional)"
-            data-en="Contribution (National)"
+            onclick="finalizeSelection('Congelamiento')"
+            data-es="Congelamiento"
+            data-en="Freezing"
           >
-            Contribución (Nacional)
+            Congelamiento
+          </button>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Pantalla en Negro con logo')"
+            data-es="Pantalla en Negro con Logo"
+            data-en="Black Screen with Logo"
+          >
+            Pantalla en Negro con Logo
+          </button>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Pantalla en Negro')"
+            data-es="Pantalla en Negro"
+            data-en="Black Screen"
+          >
+            Pantalla en Negro
+          </button>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Barras de Color')"
+            data-es="Barras de Color"
+            data-en="Color Bars"
+          >
+            Barras de Color
           </button>
         </div>
 
-        <!-- Paso 2 (Radios): (Opciones futuras) -->
-        <div id="menu-step-2-radios" class="dropdown-menu hidden">
+        <!-- Paso 6B: Detalle de Falla de Audio (Delay, Loss, Latency) -->
+        <div id="menu-step-5-falla-audio" class="dropdown-menu hidden">
           <p
-            data-es="Opciones de Radio en desarrollo..."
-            data-en="Radio options in development..."
+            class="menu-label"
+            data-es="Seleccione la Falla de Audio:"
+            data-en="Select Audio Fault Type:"
           >
-            Opciones de Radio en desarrollo...
+            Seleccione la Falla de Audio:
           </p>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Delay')"
+            data-es="Retardo (Delay)"
+            data-en="Delay"
+          >
+            Retardo (Delay)
+          </button>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Loss')"
+            data-es="Pérdida (Loss)"
+            data-en="Loss"
+          >
+            Pérdida (Loss)
+          </button>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('Latency')"
+            data-es="Latencia (Latency)"
+            data-en="Latency"
+          >
+            Latencia (Latency)
+          </button>
         </div>
+
+        <!-- Opción Radios (En desarrollo) -->
+        <div id="menu-step-radios-dev" class="dropdown-menu hidden">
+          <p data-es="Opciones de Radio" data-en="Radio options:">
+            Seleccionar Radio (Select Radio):
+          </p>
+          <button
+            class="menu-btn final-action"
+            onclick="finalizeSelection('ShowVen')"
+            data-es="ShowVen"
+            data-en="ShowVen"
+          >
+            ShowVen
+          </button>
+        </div>
+          <div id="menu-step-radios-dev" class="dropdown-menu hidden">
+            <button
+              class="menu-btn final-action"
+              onclick="finalizeSelection('Delay')"
+              data-es="Retardo (Delay)"
+              data-en="Delay"
+            >
+              Retardo (Delay)
+            </button>
+            <button
+              class="menu-btn final-action"
+              onclick="finalizeSelection('Loss')"
+              data-es="Pérdida (Loss)"
+              data-en="Loss"
+            >
+              Pérdida (Loss)
+            </button>
+            <button
+              class="menu-btn final-action"
+              onclick="finalizeSelection('Latency')"
+              data-es="Latencia (Latency)"
+              data-en="Latency"
+            >
+              Latencia (Latency)
+            </button>
+          </div>
       </nav>
 
       <!-- Estructura Principal -->
@@ -300,6 +439,8 @@
               "
             />
           </div>
+
+          <!-- Botón Copiar Reporte -->
           <div
             class="report-action-container"
             style="margin-top: 20px; text-align: center"
@@ -334,7 +475,9 @@
               >¡Reporte copiado!</span
             >
           </div>
-          <div class="action-panel">
+
+          <!-- Botón Reiniciar Diagnóstico -->
+          <div class="action-panel" style="margin-top: 15px">
             <button
               id="reset-btn"
               class="menu-btn"
@@ -370,15 +513,34 @@
         </div>
       </footer>
     </div>
+    <!-- HTML del Modal flotante -->
+    <div
+      id="diagramModal"
+      class="diagram-modal-overlay"
+      onclick="closeZoomModal()"
+    >
+      <button class="diagram-modal-close">&times;</button>
+      <img
+        id="modalImage"
+        class="diagram-modal-content"
+        alt="Diagrama Ampliado"
+      />
+      <span
+        class="diagram-modal-hint"
+        data-es="Haz clic en cualquier lugar para cerrar"
+        data-en="Click anywhere to close"
+        >Haz clic en cualquier lugar para cerrar</span
+      >
+    </div>
 
     <!-- Script de Lógica Interactiva, Bilingüe y de Diccionario de Imágenes -->
     <script>
       // 🛡️ VALIDACIÓN DE ACCESO DE TÉCNICO
       const userType = localStorage.getItem("redtv_user_type");
       if (!userType) {
-        // Si no ha iniciado sesión, lo devolvemos al login principal
         window.location.href = "index.html";
       }
+
       function updateClock() {
         const now = new Date();
         const options = {
@@ -394,25 +556,79 @@
       }
       updateClock();
       setInterval(updateClock, 1000);
+
       const toggleBtn = document.getElementById("lang-toggle");
       let currentLang = localStorage.getItem("appLanguage") || "es";
 
-      // Variables temporales para rastrear la selección actual
-      let selectedChannel = "";
+      // Variables de seguimiento de selección en orden correcto
+      let selectedPlatform = "";
+      let selectedService = "";
       let selectedSignal = "";
+      let selectedFault = "";
 
-      // Diccionario de imágenes asociadas a cada combinación única
+      // Diccionario de imágenes asociadas
       const diagramImages = {
-        Televen_Video_Contribucion: "public/assets/images/televen.jpeg",
-        Televen_Audio_Contribucion: "public/assets/images/televen.jpeg",
-
-        CCS_Movie_Video_Contribucion: "public/assets/images/ccsmovie.jpeg",
-        CCS_Movie_Audio_Contribucion: "public/assets/images/ccsmovie.jpeg",
-
-        CCS_Documental_Video_Contribucion:
-          "public/assets/images/ccsdocumental.jpeg",
-        CCS_Documental_Audio_Contribucion:
-          "public/assets/images/ccsdocumental.jpeg",
+        // Satellite images
+        Red_Advenir_Video_Satelital_Pixelamiento:
+          "public/assets/diagrams/RED_ADVENIR_PIXELATION.svg",
+        Red_Advenir_Video_Satelital_Congelamiento:
+          "public/assets/diagrams/RED_ADVENIR_FREEZING.svg",
+        Red_Advenir_Video_Satelital_Pantalla_en_Negro_con_logo:
+          "public/assets/diagrams/RED_ADVENIR_BLACK_SCREEN_WITH_LOGO - Page 1.svg",
+        Red_Advenir_Video_Satelital_Pantalla_en_Negro:
+          "public/assets/diagrams/RED_ADVENIR_BLACK_SCREEN_AND_COLOR_BARS.svg",
+        Red_Advenir_Video_Satelital_Barra_de_Colores:
+          "public/assets/diagrams/RED_ADVENIR_BLACK_SCREEN_AND_COLOR_BARS.svg",
+        Red_Advenir_Audio_Satelital_Delay:
+          "public/assets/diagrams/RED_ADVENIR - Page 1.svg",
+        Red_Advenir_Audio_Satelital_Perdida:
+          "public/assets/diagrams/RED_ADVENIR - Page 1.svg",
+        Red_Advenir_Audio_Satelital_Latencia:
+          "public/assets/diagrams/RED_ADVENIR - Page 1.svg",
+        // Contribution images
+        Televen_Video_Contribucion_Pixelamiento:
+          "public/assets/images/televen.jpeg",
+        Televen_Video_Contribucion_Congelamiento:
+          "public/assets/images/televen.jpeg",
+        Televen_Video_Contribucion_Pantalla_en_Negro_con_logo:
+          "public/assets/images/televen.jpeg",
+        Televen_Video_Contribucion_Pantalla_en_Negro:
+          "public/assets/images/televen.jpeg",
+        Televen_Video_Contribucion_Barra_de_Colores:
+          "public/assets/images/televen.jpeg",
+        Televen_Audio_Contribucion_Delay: "public/assets/images/televen.jpeg",
+        Televen_Audio_Contribucion_Perdida: "public/assets/images/televen.jpeg",
+        Televen_Audio_Contribucion_Latencia:
+          "public/assets/images/televen.jpeg",
+        CCS_Movie_Video_Pixelamiento: "public/assets/diagrams/ccsmovie.svg",
+        CCS_Movie_Video_Congelamiento:
+          "public/assets/diagrams/ccsmovie - page 1.svg",
+        CCS_Movie_Video_Pantalla_en_Negro_con_logo:
+          "public/assets/diagrams/ccsmovie - page 1.svg",
+        CCS_Movie_Video_Pantalla_en_Negro:
+          "public/assets/diagrams/CCSMOVIE - Page 1.svg",
+        CCS_Movie_Video_Barra_de_Colores:
+          "public/assets/diagrams/CCSMOVIE - Page 1.svg",
+        CCS_Movie_Audio_Delay: "public/assets/diagrams/CCSMOVIE - Page 1.svg",
+        CCS_Movie_Audio_Perdida: "public/assets/diagrams/CCSMOVIE - Page 1.svg",
+        CCS_Movie_Audio_Latencia:
+          "public/assets/diagrams/CCSMOVIE - Page 1.svg",
+        CCS_Documental_Video_Pixelamiento:
+          "public/assets/diagrams/CCSDOCUMENTAL - Page 1.svg",
+        CCS_Documental_Video_Congelamiento:
+          "public/assets/diagrams/CCSDOCUMENTAL - Page 1.svg",
+        CCS_Documental_Video_Pantalla_en_Negro_con_logo:
+          "public/assets/diagrams/CCSDOCUMENTAL - Page 1.svg",
+        CCS_Documental_Video_Pantalla_en_Negro:
+          "public/assets/diagrams/CCSDOCUMENTAL - Page 1.svg",
+        CCS_Documental_Video_Barra_de_Colores:
+          "public/assets/diagrams/CCSDOCUMENTAL - Page 1.svg",
+        CCS_Documental_Audio_Delay:
+          "public/assets/diagrams/CCSMOVIE - Page 1.svg",
+        CCS_Documental_Audio_Perdida:
+          "public/assets/diagrams/CCSMOVIE - Page 1.svg",
+        CCS_Documental_Audio_Latencia:
+          "public/assets/diagrams/CCSMOVIE - Page 1.svg",
       };
 
       // 1. Lógica Bilingüe
@@ -458,8 +674,13 @@
         updateLanguage(currentLang);
       }
 
-      function setChannelAndStep(channelName, nextMenuId) {
-        selectedChannel = channelName;
+      function setPlatformAndStep(platformName, nextMenuId) {
+        selectedPlatform = platformName;
+        selectStep(nextMenuId);
+      }
+
+      function setServiceAndStep(serviceName, nextMenuId) {
+        selectedService = serviceName;
         selectStep(nextMenuId);
       }
 
@@ -468,43 +689,49 @@
         selectStep(nextMenuId);
       }
 
-      function finalizeSelection(platformName) {
+      // Paso final: Muestra el diagrama correspondiente
+      function finalizeSelection(faultName) {
+        selectedFault = faultName;
         hideAllMenus();
 
-        const key = `${selectedChannel}_${selectedSignal}_${platformName}`;
+        const cleanFault = selectedFault.replace(/\s+/g, "_");
+        const key = `${selectedService}_${selectedSignal}_${selectedPlatform}_${cleanFault}`;
         const imagePath = diagramImages[key];
         const diagramDiv = document.querySelector(".diagram-placeholder");
         const placeholderText = document.getElementById("placeholder-text");
         const diagramImage = document.getElementById("diagram-image");
 
         const titleText =
-          currentLang === "es" ? "Diagrama Solicitado:" : "Requested Diagram:";
+          currentLang === "es"
+            ? "Diagrama de Diagnóstico Específico:"
+            : "Specific Diagnostic Diagram:";
 
         if (imagePath) {
-          placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.1rem;">${titleText}<br/><b>${selectedChannel} - ${selectedSignal} (${platformName})</b></span>`;
+          placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.0rem;">${titleText}<br/><b>Plataforma:</b> ${selectedPlatform} | <b>Servicio:</b> ${selectedService} | <b>Señal:</b> ${selectedSignal} | <b>Falla:</b> ${selectedFault}</span>`;
           diagramImage.src = imagePath;
           diagramImage.style.display = "block";
         } else {
-          placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.1rem;">${titleText}<br/><b>${selectedChannel} - ${selectedSignal} (${platformName})</b></span><br/><br/>[ Imagen pendiente de asociar en la ruta: ${key} ]`;
-          diagramImage.style.display = "none";
+          placeholderText.innerHTML = `<span style="color: var(--naranja-boton); font-size: 1.0rem;">${titleText}<br/><b>Plataforma:</b> ${selectedPlatform} | <b>Servicio:</b> ${selectedService} | <b>Señal:</b> ${selectedSignal} | <b>Falla:</b> ${selectedFault}</span><br/><br/>[ Imagen asociada para ${selectedService} ]`;
+          // Fallback automático si existe una imagen base del servicio
+          diagramImage.src = `public/assets/diagrams/${selectedService.toLowerCase().replace("_", "")}.svg`;
+          diagramImage.style.display = "block";
         }
 
         diagramDiv.style.borderColor = "var(--naranja-boton)";
       }
 
-      // Inicialización al cargar la página
-      updateLanguage(currentLang);
       // Función para reiniciar el diagnóstico
       function resetDiagnosis() {
-        selectedChannel = "";
+        selectedPlatform = "";
+        selectedService = "";
         selectedSignal = "";
+        selectedFault = "";
         hideAllMenus();
 
         const placeholderText = document.getElementById("placeholder-text");
         const diagramImage = document.getElementById("diagram-image");
         const diagramDiv = document.querySelector(".diagram-placeholder");
 
-        // Restaurar textos originales con soporte bilingüe
         placeholderText.setAttribute(
           "data-es",
           "[ ÁREA RESERVADA PARA EL DIAGRAMA DE FLUJO / ARCHIVO SVG ]",
@@ -519,6 +746,82 @@
         diagramDiv.style.borderColor = "";
 
         updateLanguage(currentLang);
+      }
+
+      // Lógica del botón de Copiar Reporte
+      document.addEventListener("DOMContentLoaded", () => {
+        const copyBtn = document.getElementById("copy-report-btn");
+        const feedback = document.getElementById("copy-feedback");
+
+        if (copyBtn) {
+          copyBtn.addEventListener("click", () => {
+            const isEnglish = currentLang === "en";
+            const now = new Date().toLocaleString();
+            const techName =
+              localStorage.getItem("redtv_user_name") || "Técnico";
+            const techId = localStorage.getItem("redtv_user_id") || "N/A";
+
+            let reportText = "";
+            if (isEnglish) {
+              reportText = `--- C-BAND TELEPORT DIAGNOSTIC REPORT ---
+• Date/Time: ${now}
+• Technician: ${techName} (ID: ${techId})
+• Station: REDTV, C.A.
+• Platform: ${selectedPlatform || "N/A"}
+• Service: ${selectedService || "N/A"}
+• Signal Type: ${selectedSignal || "N/A"}
+• Fault Type: ${selectedFault || "N/A"}
+• Status: Troubleshooting compiled successfully.
+--------------------------------------------`;
+            } else {
+              reportText = `--- REPORTE DE DIAGNÓSTICO DE TELEPUERTO BANDA C ---
+• Fecha/Hora: ${now}
+• Técnico: ${techName} (Cédula: ${techId})
+• Estación: REDTV, C.A.
+• Plataforma: ${selectedPlatform || "N/A"}
+• Servicio: ${selectedService || "N/A"}
+• Tipo de Señal: ${selectedSignal || "N/A"}
+• Tipo de Falla: ${selectedFault || "N/A"}
+• Estado: Pasos de diagnóstico recopilados exitosamente.
+--------------------------------------------------`;
+            }
+
+            navigator.clipboard
+              .writeText(reportText)
+              .then(() => {
+                if (feedback) {
+                  feedback.innerText = isEnglish
+                    ? "Report copied!"
+                    : "¡Reporte copiado!";
+                  feedback.style.display = "inline";
+                  setTimeout(() => {
+                    feedback.style.display = "none";
+                  }, 3000);
+                }
+              })
+              .catch((err) => {
+                console.error("Error copying to clipboard: ", err);
+              });
+          });
+        }
+        updateLanguage(currentLang);
+      });
+      // Lógica para abrir el Zoom al hacer clic en el diagrama
+      const diagramImg = document.getElementById("diagram-image");
+      const diagramModal = document.getElementById("diagramModal");
+      const modalImg = document.getElementById("modalImage");
+
+      if (diagramImg) {
+        diagramImg.addEventListener("click", () => {
+          if (diagramImg.src) {
+            diagramModal.style.display = "flex";
+            modalImg.src = diagramImg.src;
+          }
+        });
+      }
+
+      function closeZoomModal() {
+        diagramModal.style.display = "none";
       }
     </script>
   </body>
